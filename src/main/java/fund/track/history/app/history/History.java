@@ -1,4 +1,4 @@
-package fund.track.history.app.model;
+package fund.track.history.app.history;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +7,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+
+import java.time.LocalDate;
 
 @Document(indexName = "history")
 @Getter
@@ -17,11 +19,13 @@ public class History {
     @Id
     String id;
 
-    @Field(type = FieldType.Integer)
-    Integer from;
+    @Field(type = FieldType.Keyword)
+    String ticker;
 
-    @Field(type = FieldType.Integer)
-    Integer to;
+    @Field(type = FieldType.Keyword)
+    String price;
 
-    String name;
+    @Field(type = FieldType.Date)
+    LocalDate date;
+
 }
