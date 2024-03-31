@@ -6,6 +6,9 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import fund.track.history.app.history.HistoryRepository;
+import fund.track.history.app.history.HistorySaver;
+import fund.track.history.app.history.register.HistoryRegisterRepository;
 import fund.track.history.app.stock.StockFetcher;
 import fund.track.history.app.stock.StockResponse;
 import fund.track.history.app.stock.StockResponseDeserializer;
@@ -29,6 +32,13 @@ public class BeanConfiguration {
     @Bean
     public TickerReader tickerReader() {
         return new TickerReader();
+    }
+
+    @Bean
+    public HistorySaver historySaver(
+            HistoryRegisterRepository historyRegisterRepository,
+            HistoryRepository historyRepository) {
+        return new HistorySaver(historyRegisterRepository, historyRepository);
     }
 
     @Bean

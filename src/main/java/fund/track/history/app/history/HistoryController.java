@@ -18,9 +18,9 @@ public class HistoryController {
 
 
     @GetMapping
-    public List<History> findByTicker() {
-        Page<History> ibm = historyRepository.findHistoryByTicker("IBM", PageRequest.of(1, 10));
-        return ibm.get().toList();
+    public List<History> findByTicker(String ticker) {
+        Page<History> results = historyRepository.findHistoryByTicker(ticker, PageRequest.of(1, 10));
+        return results.get().toList();
     }
 
 }
