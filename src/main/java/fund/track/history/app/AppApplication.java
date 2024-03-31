@@ -35,7 +35,7 @@ public class AppApplication implements CommandLineRunner {
         StockResponse response = stockFetcher.fetch();
         String symbol = response.getTicker();
 
-        var list = response.getPricePerMonth().entrySet().stream()
+        var fetched = response.getPricePerMonth().entrySet().stream()
                 .map(entry -> History.builder()
                         .id(symbol + "_" + entry.getKey())
                         .price(entry.getValue())
@@ -44,7 +44,15 @@ public class AppApplication implements CommandLineRunner {
                         .build())
                 .toList();
 
-        List<HistoryRegister> toSave = list.stream()
+        List<String> idsInRegister = historyRegisterRepository.findAll().stream()
+                .map(HistoryRegister::getId)
+                .toList();
+
+        List<History> toSave = fetched.stream()
+                .filter(fetchedItem -> !idsInRegister.contains(fetchedItem.getId()))
+                .toList();
+
+        List<HistoryRegister> toSaveInRegister = toSave.stream()
                 .map(history -> HistoryRegister.builder()
                         .id(history.getId())
                         .price(history.getPrice())
@@ -53,9 +61,8 @@ public class AppApplication implements CommandLineRunner {
                         .build())
                 .toList();
 
-        historyRegisterRepository.saveAll(toSave);
-
-        historyRepository.saveAll(list);
+        historyRegisterRepository.saveAll(toSaveInRegister);
+        historyRepository.saveAll(toSave);
 
         log.debug("HISTORY SAVED");
 
