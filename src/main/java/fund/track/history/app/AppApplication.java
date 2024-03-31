@@ -6,15 +6,17 @@ import fund.track.history.app.history.register.HistoryRegister;
 import fund.track.history.app.history.register.HistoryRegisterRepository;
 import fund.track.history.app.stock.StockFetcher;
 import fund.track.history.app.stock.StockResponse;
+import fund.track.history.app.util.TickerReader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @SpringBootApplication
 @RequiredArgsConstructor
@@ -24,6 +26,7 @@ public class AppApplication implements CommandLineRunner {
     private final StockFetcher stockFetcher;
     private final HistoryRepository historyRepository;
     private final HistoryRegisterRepository historyRegisterRepository;
+    private final TickerReader tickerReader;
 
 
     public static void main(String[] args) {
@@ -32,7 +35,30 @@ public class AppApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        StockResponse response = stockFetcher.fetch();
+        var tickers = tickerReader.read("src/main/resources/stocks.txt");
+        boolean savedNewRecords = false;
+
+        Map<String, Boolean> tickerExistenceInRegister = tickers.stream()
+                .collect(Collectors.toMap(Function.identity(),
+                        e -> historyRegisterRepository.findFirstByTicker(e).isPresent()));
+
+        for (var entry : tickerExistenceInRegister.entrySet()) {
+            if (!entry.getValue()) {
+                StockResponse response = stockFetcher.fetch(entry.getKey());
+                save(response);
+                savedNewRecords = true;
+            }
+        }
+
+        if (savedNewRecords) {
+            log.debug("NEW RECORDS SAVED!!!");
+        } else {
+            log.debug("NOTHING NEW SAVED");
+        }
+
+    }
+
+    private void save(StockResponse response) {
         String symbol = response.getTicker();
 
         var fetched = response.getPricePerMonth().entrySet().stream()
@@ -63,8 +89,5 @@ public class AppApplication implements CommandLineRunner {
 
         historyRegisterRepository.saveAll(toSaveInRegister);
         historyRepository.saveAll(toSave);
-
-        log.debug("HISTORY SAVED");
-
     }
 }

@@ -15,10 +15,12 @@ public class StockFetcher {
     private final ObjectMapper objectMapper;
 
 
-    public StockResponse fetch() throws Exception {
-        var result = restTemplate.getForEntity("https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol=IBM&apikey=demo", String.class);
-        var s = objectMapper.readValue(result.getBody(), StockResponse.class);
-        return s;
+    public StockResponse fetch(String symbol) throws Exception {
+        String address = "https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol=" + symbol + "&apikey=" + API_KEY;
+        var result = restTemplate.getForEntity(address, String.class);
+        log.debug("Response from AlphaVantage on symbol {}: {}", symbol, result);
+
+        return objectMapper.readValue(result.getBody(), StockResponse.class);
     }
 
 }
