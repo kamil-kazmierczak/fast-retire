@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,10 +28,10 @@ public class StockResponseDeserializer extends StdDeserializer<StockResponse> {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
         String ticker = node.get("Meta Data").get("2. Symbol").asText();
 
-        Map<LocalDate, String> pricePerMonth = new HashMap<>();
+        Map<LocalDate, BigDecimal> pricePerMonth = new HashMap<>();
 
         for (var entry : node.get("Monthly Time Series").properties()) {
-            pricePerMonth.put(LocalDate.parse(entry.getKey()), entry.getValue().get("4. close").asText());
+            pricePerMonth.put(LocalDate.parse(entry.getKey()), new BigDecimal(entry.getValue().get("4. close").asText()));
         }
 
         return new StockResponse(ticker, pricePerMonth);

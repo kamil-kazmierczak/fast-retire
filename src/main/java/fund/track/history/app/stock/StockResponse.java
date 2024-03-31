@@ -3,6 +3,7 @@ package fund.track.history.app.stock;
 import lombok.Builder;
 import lombok.Value;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Map;
 
@@ -11,6 +12,6 @@ import java.util.Map;
 public class StockResponse {
 
     String ticker;
-    Map<LocalDate, String> pricePerMonth;
+    Map<LocalDate, BigDecimal> pricePerMonth;
 
 }

@@ -1,6 +1,9 @@
 package fund.track.history.app;
 
 import fund.track.history.app.history.History;
+import fund.track.history.app.history.HistoryRepository;
+import fund.track.history.app.history.register.HistoryRegister;
+import fund.track.history.app.history.register.HistoryRegisterRepository;
 import fund.track.history.app.stock.StockFetcher;
 import fund.track.history.app.stock.StockResponse;
 import lombok.RequiredArgsConstructor;
@@ -10,9 +13,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 
-import java.time.LocalDate;
-import java.util.Map;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 @SpringBootApplication
@@ -21,7 +22,8 @@ import java.util.UUID;
 public class AppApplication implements CommandLineRunner {
 
     private final StockFetcher stockFetcher;
-    private final ElasticsearchOperations elasticsearchOperations;
+    private final HistoryRepository historyRepository;
+    private final HistoryRegisterRepository historyRegisterRepository;
 
 
     public static void main(String[] args) {
@@ -31,14 +33,29 @@ public class AppApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         StockResponse response = stockFetcher.fetch();
-
         String symbol = response.getTicker();
 
         var list = response.getPricePerMonth().entrySet().stream()
-                .map(entry -> new History(UUID.randomUUID().toString(), symbol, entry.getValue(), entry.getKey()))
+                .map(entry -> History.builder()
+                        .id(symbol + "_" + entry.getKey())
+                        .price(entry.getValue())
+                        .date(entry.getKey())
+                        .ticker(symbol)
+                        .build())
                 .toList();
 
-        elasticsearchOperations.save(list);
+        List<HistoryRegister> toSave = list.stream()
+                .map(history -> HistoryRegister.builder()
+                        .id(history.getId())
+                        .price(history.getPrice())
+                        .ticker(history.getTicker())
+                        .date(history.getDate())
+                        .build())
+                .toList();
+
+        historyRegisterRepository.saveAll(toSave);
+
+        historyRepository.saveAll(list);
 
         log.debug("HISTORY SAVED");
 
