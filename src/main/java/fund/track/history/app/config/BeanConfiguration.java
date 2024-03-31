@@ -9,6 +9,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import fund.track.history.app.stock.StockFetcher;
 import fund.track.history.app.stock.StockResponse;
 import fund.track.history.app.stock.StockResponseDeserializer;
+import fund.track.history.app.util.TickerReader;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +24,11 @@ public class BeanConfiguration {
     @Bean
     public StockFetcher stockFetcher(RestTemplate restTemplate, ObjectMapper objectMapper) {
         return new StockFetcher(restTemplate, objectMapper);
+    }
+
+    @Bean
+    public TickerReader tickerReader() {
+        return new TickerReader();
     }
 
     @Bean
