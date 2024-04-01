@@ -8,14 +8,25 @@
         <version>3.2.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <groupId>fund.track.history</groupId>
-    <artifactId>app</artifactId>
+    <artifactId>ft-history</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>app</name>
+    <packaging>pom</packaging>
     <description>Microservice for storing historical stocks data</description>
+
+    <modules>
+        <module>ft-history-api</module>
+        <module>ft-history-application</module>
+        <module>ft-history-integration</module>
+        <module>ft-history-infrastructure</module>
+        <module>ft-history-standalone</module>
+    </modules>
+
     <properties>
         <java.version>17</java.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -84,21 +95,6 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+
 
 </project>
