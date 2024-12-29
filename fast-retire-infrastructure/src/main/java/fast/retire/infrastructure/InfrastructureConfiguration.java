@@ -1,7 +1,9 @@
 package fast.retire.infrastructure;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
@@ -16,7 +18,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Configuration
@@ -29,6 +30,9 @@ public class InfrastructureConfiguration {
         module.addDeserializer(StockResponse.class, new StockResponseDeserializer());
         module.addDeserializer(CryptocurrencyResponse.class, new CryptocurrencyResponseDeserializer());
         objectMapper.registerModule(module);
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
         return objectMapper;
     }
 
