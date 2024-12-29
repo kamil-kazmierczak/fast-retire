@@ -9,18 +9,17 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>fund.track.history</groupId>
-    <artifactId>ft-history</artifactId>
+    <groupId>pl.kmlk</groupId>
+    <artifactId>fast-retire</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <description>Microservice for storing historical stocks data</description>
 
     <modules>
-        <module>ft-history-api</module>
-        <module>ft-history-application</module>
-        <module>ft-history-integration</module>
-        <module>ft-history-infrastructure</module>
-        <module>ft-history-standalone</module>
+        <module>fast-retire-api</module>
+        <module>fast-retire-application</module>
+        <module>fast-retire-integration</module>
+        <module>fast-retire-infrastructure</module>
+        <module>fast-retire-standalone</module>
     </modules>
 
     <properties>
