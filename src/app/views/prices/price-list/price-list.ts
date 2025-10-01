@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import {PriceService} from '../price.service';
-import {Price} from '../price.model';
 import {PriceItem} from './price-item/price-item';
 
 @Component({
