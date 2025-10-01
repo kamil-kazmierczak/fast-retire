@@ -1,0 +1,7 @@
+<ul>
+    @for (price of prices; track price.id) {
+        <li>
+            <app-price-item [price]="price" />
+        </li>
+    }
+</ul>
