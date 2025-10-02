@@ -19,6 +19,12 @@ export class PriceService {
                 name: 'ETH',
                 value: 4500,
                 currency: 'USD'
+            },
+            {
+                id: '3',
+                name: 'DOT',
+                value: 500,
+                currency: 'USD'
             }
         ]
     }

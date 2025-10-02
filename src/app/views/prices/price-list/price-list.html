@@ -1,7 +1,9 @@
-<ul>
+<div>
+    <h1>Prices</h1>
     @for (price of prices; track price.id) {
-        <li>
-            <app-price-item [price]="price" />
-        </li>
+        <div class="row">
+            <app-price-item [price]="price"/>
+        </div>
     }
-</ul>
+
+</div>
