@@ -6,6 +6,10 @@
 /out-tsc
 /bazel-out
 
+# Bulma
+bulma.css
+bulma.css.map
+
 # Node
 /node_modules
 npm-debug.log

@@ -1,68 +1,68 @@
-<div class="columns is-multiline">
-
-    <div class="column is-4">
-        <div class="card-content">
-            <div class="title">
-                Crypto
-            </div>
-            <div class="sub-title">
-                1234
-            </div>
+<div class="level">
+    <div class="level-item has-text-centered">
+        <div>
+            <p class="heading">Crypto</p>
+            <p class="title">{{overview.crypto.value}} {{overview.crypto.currency}}</p>
+        </div>
+    </div>
+    <div class="level-item has-text-centered">
+        <div>
+            <p class="heading">Stocks</p>
+            <p class="title">{{overview.stocks.value}} {{overview.stocks.currency}}</p>
+        </div>
+    </div>
+    <div class="level-item has-text-centered">
+        <div>
+            <p class="heading">Bonds</p>
+            <p class="title">{{overview.bonds.value}} {{overview.bonds.currency}}</p>
+        </div>
+    </div>
+    <div class="level-item has-text-centered">
+        <div>
+            <p class="heading">IKE</p>
+            <p class="title">{{overview.ike.value}} {{overview.ike.currency}}</p>
         </div>
     </div>
 
-    <div class="column is-4">
-        <div class="card-content">
-            <div class="title">
-                Stocks
-            </div>
-            <div class="sub-title">
-                1234
-            </div>
+    <div class="level-item has-text-centered">
+        <div>
+            <p class="heading">Gold</p>
+            <p class="title">{{overview.gold.value}} {{overview.gold.currency}}</p>
         </div>
     </div>
 
-    <div class="column is-4">
-        <div class="card-content">
-            <div class="title">
-                Bonds
-            </div>
-            <div class="sub-title">
-                1234
-            </div>
-        </div>
-    </div>
 
-    <div class="column is-4">
-        <div class="card-content">
-            <div class="title">
-                IKE
-            </div>
-            <div class="sub-title">
-                1234
-            </div>
-        </div>
-    </div>
-
-    <div class="column is-4">
-        <div class="card-content">
-            <div class="title">
-                Gold
-            </div>
-            <div class="sub-title">
-                1234
-            </div>
-        </div>
-    </div>
-
-    <div class="column is-4">
-        <div class="card-content">
-            <div class="title">
-                Cash
-            </div>
-            <div class="sub-title">
-                1234
-            </div>
+    <div class="level-item has-text-centered">
+        <div>
+            <p class="heading">Cash</p>
+            <p class="title">{{overview.cash.value}} {{overview.cash.currency}}</p>
         </div>
     </div>
 </div>
+<hr>
+<div>
+    <div>
+        <app-crypto/>
+    </div>
+    <hr>
+    <div>
+        <app-stocks/>
+    </div>
+    <hr>
+    <div>
+        <app-bonds/>
+    </div>
+    <hr>
+    <div>
+        <app-ike/>
+    </div>
+    <hr>
+    <div>
+        <app-gold/>
+    </div>
+    <hr>
+    <div>
+        <app-cash/>
+    </div>
+</div>
+

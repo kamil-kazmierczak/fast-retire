@@ -5,7 +5,7 @@ import {RouterLink, RouterOutlet} from '@angular/router';
     selector: 'app-main-layout',
     imports: [RouterOutlet, RouterLink],
     templateUrl: './main-layout.html',
-    styleUrl: './main-layout.css'
+    styleUrl: './main-layout.scss'
 })
 export class MainLayoutComponent implements OnInit {
 

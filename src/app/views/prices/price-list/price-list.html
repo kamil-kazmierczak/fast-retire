@@ -1,9 +1,8 @@
-<div>
+<div class="level">
     <h1>Prices</h1>
     @for (price of prices; track price.id) {
-        <div class="row">
+        <div class="level-item">
             <app-price-item [price]="price"/>
         </div>
     }
-
 </div>
