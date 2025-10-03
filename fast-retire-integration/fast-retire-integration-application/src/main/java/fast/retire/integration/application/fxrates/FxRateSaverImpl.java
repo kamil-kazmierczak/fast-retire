@@ -1,30 +1,31 @@
-package fast.retire.integration.application.stocks;
+package fast.retire.integration.application.fxrates;
 
 import fast.retire.api.register.HistoryRegister;
 import fast.retire.api.register.HistoryRegisterRepository;
 import fast.retire.api.register.Price;
-import fast.retire.integration.api.stocks.StockPriceSaver;
-import fast.retire.integration.api.stocks.StockResponse;
+import fast.retire.integration.api.fxrates.FxRateResponse;
+import fast.retire.integration.api.fxrates.FxRateSaver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @RequiredArgsConstructor
-public class StockPriceSaverImpl implements StockPriceSaver {
+public class FxRateSaverImpl implements FxRateSaver {
 
     private final HistoryRegisterRepository historyRegisterRepository;
 
     @Transactional
-    public void save(StockResponse response) {
-        String symbol = response.getSymbol();
+    public void save(FxRateResponse response) {
+        String baseCurrency = response.getBaseCurrency();
+        String targetCurrency = response.getTargetCurrency();
 
         var fetched = response.getPricePerDate().entrySet().stream()
                 .map(entry -> HistoryRegister.builder()
-                        .id(symbol + "_" + entry.getKey())
-                        .price(new Price(entry.getValue(), "USD"))
+                        .id(baseCurrency + "_" + targetCurrency + entry.getKey())
+                        .price(new Price(entry.getValue(), targetCurrency))
                         .registerDate(entry.getKey())
-                        .asset(symbol)
+                        .asset(baseCurrency + "_" + targetCurrency)
                         .build())
                 .toList();
 

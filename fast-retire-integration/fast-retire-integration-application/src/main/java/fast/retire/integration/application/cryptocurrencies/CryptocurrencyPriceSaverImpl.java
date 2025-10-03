@@ -1,7 +1,5 @@
 package fast.retire.integration.application.cryptocurrencies;
 
-import fast.retire.api.History;
-import fast.retire.api.HistoryRepository;
 import fast.retire.api.register.HistoryRegister;
 import fast.retire.api.register.HistoryRegisterRepository;
 import fast.retire.api.register.Price;
@@ -16,7 +14,6 @@ import java.util.List;
 public class CryptocurrencyPriceSaverImpl implements CryptocurrencyPriceSaver {
 
     private final HistoryRegisterRepository historyRegisterRepository;
-    private final HistoryRepository historyRepository;
 
     @Transactional
     public void save(CryptocurrencyResponse response) {
@@ -24,10 +21,9 @@ public class CryptocurrencyPriceSaverImpl implements CryptocurrencyPriceSaver {
         String currency = response.getCurrency();
 
         var fetched = response.getPricePerDate().entrySet().stream()
-                .map(entry -> History.builder()
+                .map(entry -> HistoryRegister.builder()
                         .id(symbol + "_" + entry.getKey())
-                        .price(entry.getValue())
-                        .priceCurrency(currency) // alphaVantage always return prices in USD for stocks
+                        .price(new Price(entry.getValue(), currency))
                         .registerDate(entry.getKey())
                         .asset(symbol)
                         .build())
@@ -37,23 +33,11 @@ public class CryptocurrencyPriceSaverImpl implements CryptocurrencyPriceSaver {
                 .map(HistoryRegister::getId)
                 .toList();
 
-        List<History> toSave = fetched.stream()
+        List<HistoryRegister> toSave = fetched.stream()
                 .filter(fetchedItem -> !idsInRegister.contains(fetchedItem.getId()))
                 .toList();
 
-        List<HistoryRegister> toSaveInRegister = toSave.stream()
-                .map(history -> HistoryRegister.builder()
-                        .id(history.getId())
-                        .price(Price.builder()
-                                .currency(history.getPriceCurrency())
-                                .value(history.getPrice())
-                                .build())
-                        .asset(history.getAsset())
-                        .registerDate(history.getRegisterDate())
-                        .build())
-                .toList();
 
-        historyRegisterRepository.saveAll(toSaveInRegister);
-        historyRepository.saveAll(toSave);
+        historyRegisterRepository.saveAll(toSave);
     }
 }

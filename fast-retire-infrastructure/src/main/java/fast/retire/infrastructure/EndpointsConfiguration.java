@@ -1,24 +1,20 @@
 package fast.retire.infrastructure;
 
-import fast.retire.api.HistoryRepository;
-import fast.retire.application.history.HistoryController;
 import fast.retire.integration.api.cryptocurrencies.CryptocurrencyFetcher;
 import fast.retire.integration.api.cryptocurrencies.CryptocurrencyPriceSaver;
+import fast.retire.integration.api.fxrates.FxRateFetcher;
+import fast.retire.integration.api.fxrates.FxRateSaver;
 import fast.retire.integration.api.stocks.StockFetcher;
 import fast.retire.integration.api.stocks.StockPriceSaver;
 import fast.retire.integration.application.cryptocurrencies.CryptocurrencyController;
+import fast.retire.integration.application.fxrates.FxRateController;
 import fast.retire.integration.application.stocks.StockController;
+import org.springframework.boot.actuate.endpoint.web.annotation.WebEndpoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class EndpointsConfiguration {
-
-    @Bean
-    public HistoryController historyController(
-            HistoryRepository historyRepository) {
-        return new HistoryController(historyRepository);
-    }
 
     @Bean
     public StockController stockController(
@@ -32,6 +28,13 @@ public class EndpointsConfiguration {
             CryptocurrencyFetcher cryptocurrencyFetcher,
             CryptocurrencyPriceSaver cryptocurrencyPriceSaver) {
         return new CryptocurrencyController(cryptocurrencyFetcher, cryptocurrencyPriceSaver);
+    }
+
+    @Bean
+    public FxRateController fxRateController(
+            FxRateFetcher fxRateFetcher,
+            FxRateSaver fxRateSaver) {
+        return new FxRateController(fxRateFetcher, fxRateSaver);
     }
 
 }

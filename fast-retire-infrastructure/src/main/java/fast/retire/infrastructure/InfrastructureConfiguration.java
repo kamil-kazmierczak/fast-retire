@@ -9,8 +9,10 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import fast.retire.integration.api.cryptocurrencies.CryptocurrencyResponse;
+import fast.retire.integration.api.fxrates.FxRateResponse;
 import fast.retire.integration.api.stocks.StockResponse;
 import fast.retire.integration.infrastructure.cryptocurrencies.CryptocurrencyResponseDeserializer;
+import fast.retire.integration.infrastructure.fxrates.FxRateResponseDeserializer;
 import fast.retire.integration.infrastructure.stocks.StockResponseDeserializer;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -29,6 +31,7 @@ public class InfrastructureConfiguration {
         SimpleModule module = new SimpleModule();
         module.addDeserializer(StockResponse.class, new StockResponseDeserializer());
         module.addDeserializer(CryptocurrencyResponse.class, new CryptocurrencyResponseDeserializer());
+        module.addDeserializer(FxRateResponse.class, new FxRateResponseDeserializer());
         objectMapper.registerModule(module);
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);

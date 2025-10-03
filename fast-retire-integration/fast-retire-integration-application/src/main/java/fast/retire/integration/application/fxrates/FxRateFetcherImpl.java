@@ -1,0 +1,33 @@
+package fast.retire.integration.application.fxrates;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import fast.retire.integration.api.fxrates.FxRateFetcher;
+import fast.retire.integration.api.fxrates.FxRateRequest;
+import fast.retire.integration.api.fxrates.FxRateResponse;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.web.client.RestTemplate;
+
+@RequiredArgsConstructor
+@Log4j2
+public class FxRateFetcherImpl implements FxRateFetcher {
+
+    private static final String API_KEY = "fxr_live_d374de9d27c3038b38513faad079dcfe6026";
+
+    private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
+
+    // https://api.fxratesapi.com/timeseries?api_key=fxr_live_d374de9d27c3038b38513faad079dcfe6026&start_date=2024-10-05&end_date=2025-10-03&currencies=PLN
+    @Override
+    public FxRateResponse fetch(FxRateRequest request) throws Exception {
+        String url = "https://api.fxratesapi.com/timeseries?api_key=" + API_KEY + "&places=2&currencies=" + request.getTargetCurrency() + "&start_date=2024-10-05&end_date=2025-10-03";
+        var result = restTemplate.getForEntity(url, String.class);
+        log.debug("Response from FxRatesApi on {}-{}: {}",
+                request.getBaseCurrency(),
+                request.getTargetCurrency(),
+                result);
+
+        return objectMapper.readValue(result.getBody(), FxRateResponse.class);
+    }
+
+}
