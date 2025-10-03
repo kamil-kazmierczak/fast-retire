@@ -4,8 +4,8 @@
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
-        "build": "ng build ",
-        "watch": "ng build build-bulma --watch --configuration development",
+        "build": "ng build",
+        "watch": "ng build --watch --configuration development",
         "build-bulma": "sass --load-path=node_modules bulma.scss bulma.css",
         "test": "ng test"
     },
