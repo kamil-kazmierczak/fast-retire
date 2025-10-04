@@ -2,6 +2,8 @@ package fast.retire.infrastructure;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fast.retire.api.register.HistoryRegisterRepository;
+import fast.retire.application.userportfolio.UserPortfolioRepository;
+import fast.retire.application.userportfolio.UserPortfolioService;
 import fast.retire.integration.api.cryptocurrencies.CryptocurrencyFetcher;
 import fast.retire.integration.api.cryptocurrencies.CryptocurrencyPriceSaver;
 import fast.retire.integration.api.fxrates.FxRateFetcher;
@@ -64,6 +66,11 @@ public class BeanConfiguration {
     public FxRateSaver fxRateSaver(
             HistoryRegisterRepository historyRegisterRepository) {
         return new FxRateSaverImpl(historyRegisterRepository);
+    }
+
+    @Bean
+    public UserPortfolioService userPortfolioService(UserPortfolioRepository userPortfolioRepository) {
+        return new UserPortfolioService(userPortfolioRepository);
     }
 
 }
