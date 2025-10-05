@@ -10,7 +10,7 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class FxRateRequest {
+public class CurrencyRateRequest {
 
     private String baseCurrency;
     private String targetCurrency;

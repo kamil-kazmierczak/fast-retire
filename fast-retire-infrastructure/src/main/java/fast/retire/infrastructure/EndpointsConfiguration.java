@@ -1,17 +1,16 @@
 package fast.retire.infrastructure;
 
-import fast.retire.application.userportfolio.UserPortfolioService;
+import fast.retire.application.portfolioeod.PortfolioEodService;
 import fast.retire.integration.api.cryptocurrencies.CryptocurrencyFetcher;
 import fast.retire.integration.api.cryptocurrencies.CryptocurrencyPriceSaver;
-import fast.retire.integration.api.fxrates.FxRateFetcher;
-import fast.retire.integration.api.fxrates.FxRateSaver;
+import fast.retire.integration.api.fxrates.CurrencyRateFetcher;
+import fast.retire.integration.api.fxrates.CurrencyRateSaver;
 import fast.retire.integration.api.stocks.StockFetcher;
 import fast.retire.integration.api.stocks.StockPriceSaver;
 import fast.retire.integration.application.cryptocurrencies.CryptocurrencyController;
-import fast.retire.integration.application.fxrates.FxRateController;
+import fast.retire.integration.application.currencyrates.CurrencyRateController;
 import fast.retire.integration.application.stocks.StockController;
-import fast.retire.integration.infrastructure.userportfolio.UserPortfolioController;
-import org.springframework.boot.actuate.endpoint.web.annotation.WebEndpoint;
+import fast.retire.integration.infrastructure.userportfolio.PortfolioController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -33,16 +32,16 @@ public class EndpointsConfiguration {
     }
 
     @Bean
-    public FxRateController fxRateController(
-            FxRateFetcher fxRateFetcher,
-            FxRateSaver fxRateSaver) {
-        return new FxRateController(fxRateFetcher, fxRateSaver);
+    public CurrencyRateController currencyRateController(
+            CurrencyRateFetcher currencyRateFetcher,
+            CurrencyRateSaver currencyRateSaver) {
+        return new CurrencyRateController(currencyRateFetcher, currencyRateSaver);
     }
 
     @Bean
-    public UserPortfolioController userPortfolioController(
-            UserPortfolioService userPortfolioService) {
-        return new UserPortfolioController(userPortfolioService);
+    public PortfolioController userPortfolioController(
+            PortfolioEodService portfolioEodService) {
+        return new PortfolioController(portfolioEodService);
     }
 
 }

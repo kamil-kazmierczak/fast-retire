@@ -1,19 +1,23 @@
 package fast.retire.infrastructure;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fast.retire.api.currencyrates.CurrencyRateRepository;
 import fast.retire.api.register.HistoryRegisterRepository;
-import fast.retire.application.userportfolio.UserPortfolioRepository;
-import fast.retire.application.userportfolio.UserPortfolioService;
+import fast.retire.application.assetaction.TradeRepository;
+import fast.retire.application.portfolioeod.PortfolioEodRepository;
+import fast.retire.application.portfolioeod.PortfolioEodService;
+import fast.retire.application.portfolioeod.generator.PortfolioEodGenerator;
+import fast.retire.application.user.UserRepository;
 import fast.retire.integration.api.cryptocurrencies.CryptocurrencyFetcher;
 import fast.retire.integration.api.cryptocurrencies.CryptocurrencyPriceSaver;
-import fast.retire.integration.api.fxrates.FxRateFetcher;
-import fast.retire.integration.api.fxrates.FxRateSaver;
+import fast.retire.integration.api.fxrates.CurrencyRateFetcher;
+import fast.retire.integration.api.fxrates.CurrencyRateSaver;
 import fast.retire.integration.api.stocks.StockFetcher;
 import fast.retire.integration.api.stocks.StockPriceSaver;
 import fast.retire.integration.application.cryptocurrencies.CryptocurrencyFetcherImpl;
 import fast.retire.integration.application.cryptocurrencies.CryptocurrencyPriceSaverImpl;
-import fast.retire.integration.application.fxrates.FxRateFetcherImpl;
-import fast.retire.integration.application.fxrates.FxRateSaverImpl;
+import fast.retire.integration.application.currencyrates.CurrencyRateFetcherImpl;
+import fast.retire.integration.application.currencyrates.CurrencyRateSaverImpl;
 import fast.retire.integration.application.stocks.StockFetcherImpl;
 import fast.retire.integration.application.stocks.StockPriceSaverImpl;
 import org.springframework.context.annotation.Bean;
@@ -56,21 +60,38 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public FxRateFetcher fxRateFetcher(
+    public CurrencyRateFetcher currencyRateFetcher(
             RestTemplate restTemplate,
             ObjectMapper objectMapper) {
-        return new FxRateFetcherImpl(restTemplate, objectMapper);
+        return new CurrencyRateFetcherImpl(restTemplate, objectMapper);
     }
 
     @Bean
-    public FxRateSaver fxRateSaver(
-            HistoryRegisterRepository historyRegisterRepository) {
-        return new FxRateSaverImpl(historyRegisterRepository);
+    public CurrencyRateSaver currencyRateSaver(
+            CurrencyRateRepository currencyRateRepository) {
+        return new CurrencyRateSaverImpl(currencyRateRepository);
     }
 
     @Bean
-    public UserPortfolioService userPortfolioService(UserPortfolioRepository userPortfolioRepository) {
-        return new UserPortfolioService(userPortfolioRepository);
+    public PortfolioEodService userPortfolioService(
+            PortfolioEodRepository portfolioEodRepository,
+            PortfolioEodGenerator portfolioEodGenerator) {
+        return new PortfolioEodService(portfolioEodRepository, portfolioEodGenerator);
+    }
+
+    @Bean
+    public PortfolioEodGenerator portfolioEodGenerator(
+            PortfolioEodRepository portfolioEodRepository,
+            UserRepository userRepository,
+            HistoryRegisterRepository historyRegisterRepository,
+            CurrencyRateRepository currencyRateRepository) {
+        return new PortfolioEodGenerator(
+                portfolioEodRepository,
+                userRepository,
+                historyRegisterRepository,
+                currencyRateRepository
+
+        );
     }
 
 }

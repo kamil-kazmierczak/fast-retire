@@ -1,16 +1,16 @@
-package fast.retire.integration.application.fxrates;
+package fast.retire.integration.application.currencyrates;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fast.retire.integration.api.fxrates.FxRateFetcher;
-import fast.retire.integration.api.fxrates.FxRateRequest;
-import fast.retire.integration.api.fxrates.FxRateResponse;
+import fast.retire.integration.api.fxrates.CurrencyRateFetcher;
+import fast.retire.integration.api.fxrates.CurrencyRateRequest;
+import fast.retire.integration.api.fxrates.CurrencyRateResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.client.RestTemplate;
 
 @RequiredArgsConstructor
 @Log4j2
-public class FxRateFetcherImpl implements FxRateFetcher {
+public class CurrencyRateFetcherImpl implements CurrencyRateFetcher {
 
     private static final String API_KEY = "fxr_live_d374de9d27c3038b38513faad079dcfe6026";
 
@@ -19,15 +19,15 @@ public class FxRateFetcherImpl implements FxRateFetcher {
 
     // https://api.fxratesapi.com/timeseries?api_key=fxr_live_d374de9d27c3038b38513faad079dcfe6026&start_date=2024-10-05&end_date=2025-10-03&currencies=PLN
     @Override
-    public FxRateResponse fetch(FxRateRequest request) throws Exception {
-        String url = "https://api.fxratesapi.com/timeseries?api_key=" + API_KEY + "&places=2&currencies=" + request.getTargetCurrency() + "&start_date=2024-10-05&end_date=2025-10-03";
+    public CurrencyRateResponse fetch(CurrencyRateRequest request) throws Exception {
+        String url = "https://api.fxratesapi.com/timeseries?api_key=" + API_KEY + "&places=2&currencies=" + request.getTargetCurrency() + "&start_date=2024-10-06&end_date=2025-10-05";
         var result = restTemplate.getForEntity(url, String.class);
         log.debug("Response from FxRatesApi on {}-{}: {}",
                 request.getBaseCurrency(),
                 request.getTargetCurrency(),
                 result);
 
-        return objectMapper.readValue(result.getBody(), FxRateResponse.class);
+        return objectMapper.readValue(result.getBody(), CurrencyRateResponse.class);
     }
 
 }

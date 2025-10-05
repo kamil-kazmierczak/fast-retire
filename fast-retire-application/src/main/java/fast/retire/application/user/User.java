@@ -1,7 +1,6 @@
 package fast.retire.application.user;
 
-import fast.retire.api.register.Price;
-import fast.retire.application.userportfolio.UserPortfolio;
+import fast.retire.application.assetaction.Trade;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "USERS")
@@ -25,8 +26,8 @@ public class User {
 
     private String email;
 
-    @OneToOne
-    private UserPortfolio userPortfolio;
+    @OneToMany(mappedBy = "user")
+    private List<Trade> trades = new ArrayList<>();
 
     private LocalDate registrationDate;
 

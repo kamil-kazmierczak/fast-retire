@@ -1,6 +1,6 @@
 package fast.retire.application.assetaction;
 
-import fast.retire.application.userportfolio.UserPortfolio;
+import fast.retire.application.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,12 +11,12 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "ASSET_ACTIONS")
+@Table(name = "TRADES")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class AssetAction {
+public class Trade {
 
     @Id
     private String id;
@@ -26,12 +26,12 @@ public class AssetAction {
     private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)
-    private ActionType actionType;
+    private TradeType tradeType;
 
-    private LocalDate actionDate;
+    private LocalDate date;
 
     @ManyToOne
-    @JoinColumn(name = "user_portfolio_id")
-    private UserPortfolio userPortfolio;
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Builder
 @Data
-public class FxRateResponse {
+public class CurrencyRateResponse {
 
     private final String baseCurrency;
     private final String targetCurrency;

@@ -1,7 +1,7 @@
 package fast.retire.integration.api.fxrates;
 
 // https://api.fxratesapi.com/latest?api_key=fxr_live_d374de9d27c3038b38513faad079dcfe6026&currencies=PLN&base=USD
-public interface FxRateFetcher {
+public interface CurrencyRateFetcher {
 
-    FxRateResponse fetch(FxRateRequest request) throws Exception;
+    CurrencyRateResponse fetch(CurrencyRateRequest request) throws Exception;
 }

@@ -1,10 +1,10 @@
-package fast.retire.integration.infrastructure.fxrates;
+package fast.retire.integration.infrastructure.currencyrates;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import fast.retire.integration.api.fxrates.FxRateResponse;
+import fast.retire.integration.api.fxrates.CurrencyRateResponse;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -14,18 +14,18 @@ import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FxRateResponseDeserializer extends StdDeserializer<FxRateResponse> {
+public class CurrencyRateResponseDeserializer extends StdDeserializer<CurrencyRateResponse> {
 
-    public FxRateResponseDeserializer() {
+    public CurrencyRateResponseDeserializer() {
         this(null);
     }
 
-    public FxRateResponseDeserializer(Class<?> vc) {
+    public CurrencyRateResponseDeserializer(Class<?> vc) {
         super(vc);
     }
 
     @Override
-    public FxRateResponse deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
+    public CurrencyRateResponse deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
             throws IOException {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
         String baseCurrency = node.get("base").asText();
@@ -41,7 +41,7 @@ public class FxRateResponseDeserializer extends StdDeserializer<FxRateResponse> 
             }
         }
 
-        return FxRateResponse.builder()
+        return CurrencyRateResponse.builder()
                 .baseCurrency(baseCurrency)
                 .targetCurrency(targetCurrency)
                 .pricePerDate(pricePerDate)

@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public enum ActionType {
+public enum TradeType {
     BUY("BUY"),
     SELL("SELL");
 
