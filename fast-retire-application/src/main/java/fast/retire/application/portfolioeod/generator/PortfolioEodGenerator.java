@@ -71,9 +71,6 @@ public class PortfolioEodGenerator {
 
         }
 
-        portfolioEodRepository.deletePortfolioEodsByUser_Id(userId);
-        portfolioEodRepository.flush();
-
         portfolioEodRepository.saveAll(portfolioEods);
         return portfolioEods;
     }

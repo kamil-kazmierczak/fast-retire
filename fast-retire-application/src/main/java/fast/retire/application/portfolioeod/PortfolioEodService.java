@@ -5,6 +5,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -13,8 +14,8 @@ public class PortfolioEodService {
     private final PortfolioEodRepository portfolioEodRepository;
     private final PortfolioEodGenerator portfolioEodGenerator;
 
-    public List<PortfolioEod> getUserPortfolioEodByUserId(String userId) {
-        return portfolioEodRepository.getPortfolioEodsByUser_Id(userId, Sort.by("date").ascending());
+    public List<PortfolioEod> getPortfolioEodByUserIdAndDate(String userId, String currency, LocalDate date) {
+        return portfolioEodRepository.getPortfolioEodsByUser_IdAndCurrencyAndDate(userId, currency, date);
     }
 
     @Transactional
