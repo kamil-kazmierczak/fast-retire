@@ -1,24 +1,33 @@
 <div class="level">
-    <div class="level-item has-text-centered">
-        <div>
-            <p class="heading">Crypto</p>
-            <p class="title">{{overview.crypto.value}} {{overview.crypto.currency}}</p>
-        </div>
-    </div>
-    <div class="level-item has-text-centered">
-        <div>
-            <p class="heading">Stocks</p>
-            <p class="title">{{overview.stocks.value}} {{overview.stocks.currency}}</p>
-        </div>
-    </div>
+    @if (portfolioResponse$ | async; as portfolio) {
+        @for (item of portfolio.portfolioItems; track $index) {
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">{{ item.assetName }}</p>
+                    <p class="title">{{ item.value }} {{ item.currency }}</p>
+                </div>
+            </div>
+        }
+    }
 </div>
 <hr>
 <div>
-    <apx-chart
-        [series]="chartOptions.series"
-        [chart]="chartOptions.chart"
-        [xaxis]="chartOptions.xaxis"
-        [title]="chartOptions.title"
+    <apx-chart #pieChart
+               [series]="pieChartOptions.series"
+               [chart]="pieChartOptions.chart"
+               [xaxis]="pieChartOptions.xaxis"
+               [title]="pieChartOptions.title"
+    ></apx-chart>
+</div>
+
+<div>
+    <apx-chart #lineChart
+               [series]="lineChartOptions.series"
+               [chart]="lineChartOptions.chart"
+               [xaxis]="lineChartOptions.xaxis"
+               [yaxis]="lineChartOptions.yaxis"
+               [title]="lineChartOptions.title"
+               [dataLabels]="lineChartOptions.dataLabels"
     ></apx-chart>
 </div>
 

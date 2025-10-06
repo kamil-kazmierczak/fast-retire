@@ -1,11 +1,5 @@
-import {AfterViewInit, Component, inject, ViewChild} from '@angular/core';
-import {CryptoComponent} from "../crypto/crypto";
-import {StocksComponent} from "../stocks/stocks";
-import {BondsComponent} from "../bonds/bonds";
-import {IkeComponent} from "../ike/ike";
-import {GoldComponent} from "../gold/gold";
-import {CashComponent} from "../cash/cash";
-import {OverviewService} from "./overview-service";
+import {AfterViewInit, Component, inject, OnInit, ViewChild} from '@angular/core';
+import {OverviewService, PortfolioResponse} from "./overview-service";
 import {
     ChartComponent,
     ApexAxisChartSeries,
@@ -14,6 +8,7 @@ import {
     ApexTitleSubtitle,
     NgApexchartsModule
 } from "ng-apexcharts";
+import {AsyncPipe} from "@angular/common";
 
 export type ChartOptions = {
     series: ApexAxisChartSeries;
@@ -25,49 +20,93 @@ export type ChartOptions = {
 @Component({
     selector: 'app-overview',
     imports: [
-        NgApexchartsModule
+        NgApexchartsModule,
+        AsyncPipe
     ],
     templateUrl: './overview.html',
 })
-export class OverviewComponent {
+export class OverviewComponent implements OnInit {
+    private overviewService = inject(OverviewService);
+    portfolioResponse$ = this.overviewService.getOverview('1', 'PLN');
+    portfolioTimelineResponse$ = this.overviewService.getTimelineOverview('1', 'BTC', 'PLN');
 
-    @ViewChild(ChartComponent) chart!: ChartComponent;
-    public chartOptions!: Partial<ChartOptions> | any;
+    @ViewChild("pieChart") pie!: ChartComponent;
+    @ViewChild("lineChart") line!: ChartComponent;
 
-    constructor() {
-        this.chartOptions = {
-            series: [{
-                data: [{
-                    x: 'Crypto',
-                    y: 30
-                }, {
-                    x: 'Stocks',
-                    y: 20
-                }],
-            }],
-            chart: {
-                width: 580,
-                type: "pie"
-            },
-            labels: ["Crypto", "Stocks"],
-            responsive: [
-                {
-                    breakpoint: 480,
-                    options: {
-                        chart: {
-                            width: 200
-                        },
-                        legend: {
-                            position: "bottom"
+    public pieChartOptions: Partial<ChartOptions> | any;
+    public lineChartOptions: Partial<ChartOptions> | any;
+
+    ngOnInit() {
+        this.portfolioResponse$.subscribe(portfolio => {
+            this.pieChartOptions = {
+                series: [
+                    {
+                        data: portfolio.portfolioItems.map(item => ({
+                            x: item.assetName,
+                            y: item.value
+                        }))
+                    }
+                ],
+                chart: {
+                    width: 320,
+                    type: "pie"
+                },
+                responsive: [
+                    {
+                        breakpoint: 280,
+                        options: {
+                            chart: {
+                                width: 200
+                            },
                         }
                     }
+                ]
+            }
+        })
+
+        this.portfolioTimelineResponse$.subscribe(portfolioTimeline => {
+            this.lineChartOptions = {
+                series: [{
+                        name: 'BTC',
+                        data: portfolioTimeline.portfolioTimelineItems.map(item => ({
+                            x: new Date(item.date).getTime(),
+                            y: item.value
+                        }))
+                    }],
+                xaxis: {
+                   type: 'datetime'
+                },
+                yaxis: {
+                    title: {
+                        text: 'PLN'
+                    },
+                    min: 0
+                },
+                chart: {
+                    width: 1600,
+                    type: 'area',
+                    // stacked: false,
+                    height: 300,
+                    stroke: {
+                        width: 0.5
+                    },
+                    zoom: {
+                        enabled: false
+                    },
+                    toolbar: {
+                        show: false
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                title: {
+                    text: 'BTC Portfolio'
                 }
-            ]
-        }
+            }
+
+        });
     }
 
-    private overviewService = inject(OverviewService);
-
-    overview = this.overviewService.getOverview();
 
 }

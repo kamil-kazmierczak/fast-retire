@@ -1,54 +1,48 @@
 import { Injectable } from '@angular/core';
+import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class OverviewService {
-    getOverview(): OverviewResponse {
-        return {
-            userId: '1',
-            date: '2025-05-05',
-            crypto: {
-                value: 20,
-                currency: 'USD'
-            },
-            stocks: {
-                value: 30,
-                currency: 'PLN'
-            },
-            bonds: {
-                value: 40,
-                currency: 'PLN'
-            },
-            ike: {
-                value: 40,
-                currency: 'PLN'
-            },
-            gold: {
-                value: 40,
-                currency: 'PLN'
-            },
-            cash: {
-                value: 40,
-                currency: 'PLN'
-            }
-        }
+    constructor(private http: HttpClient) {}
+
+    getOverview(userId: string, currency: string): Observable<PortfolioResponse> {
+        return this.http.get<PortfolioResponse>(
+            `${environment.apiUrl}/portfolio/current/${userId}/${currency}`
+        );
+    }
+
+    getTimelineOverview(userId: string, assetName: string, currency: string): Observable<PortfolioTimelineResponse> {
+        return this.http.get<PortfolioTimelineResponse>(
+            `${environment.apiUrl}/portfolio/timeline/${assetName}/${userId}/${currency}`
+        )
     }
 
 }
 
-export interface AmountCcy {
+export interface PortfolioResponse {
+    portfolioItems: PortfolioItem[];
+}
+
+export interface PortfolioItem {
+    assetName: string;
+    assetType: string;
+    amount: number;
     value: number;
     currency: string;
 }
 
-export interface OverviewResponse {
-    userId: string;
+export interface PortfolioTimelineResponse {
+    portfolioTimelineItems: PortfolioTimelineItem[];
+}
+
+export interface PortfolioTimelineItem {
+    assetName: string;
+    assetType: string;
+    value: number;
+    currency: string;
     date: string;
-    crypto: AmountCcy;
-    stocks: AmountCcy;
-    bonds: AmountCcy;
-    ike: AmountCcy;
-    gold: AmountCcy;
-    cash: AmountCcy;
 }
