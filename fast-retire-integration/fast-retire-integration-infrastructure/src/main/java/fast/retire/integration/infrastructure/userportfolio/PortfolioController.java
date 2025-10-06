@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/portfolio")
+@RequestMapping("/api/portfolio")
 @Log4j2
 @RequiredArgsConstructor
 public class PortfolioController {
@@ -21,6 +21,24 @@ public class PortfolioController {
     @PostMapping("/regenerate/{userId}/{currency}")
     public void regeneratePortfolio(@PathVariable String userId, @PathVariable String currency) {
         portfolioEodService.regeneratePortfolio(userId, currency);
+    }
+
+    @GetMapping("/timeline/{assetName}/{userId}/{currency}")
+    public PortfolioTimelineResponse getPortfolioTimelineResponse(
+            @PathVariable String userId,
+            @PathVariable String currency,
+            @PathVariable String assetName) {
+        var portfolioEods = portfolioEodService.getPortfolioEodsByUserIdFromDateTillNow(userId, currency, assetName);
+        List<PortfolioTimelineItem> items = portfolioEods.stream()
+                .map(portfolioEod -> PortfolioTimelineItem.builder()
+                        .assetName(portfolioEod.getAssetName())
+                        .assetType(portfolioEod.getAssetType())
+                        .value(portfolioEod.getComputedValue())
+                        .currency(portfolioEod.getCurrency())
+                        .date(portfolioEod.getDate())
+                        .build()
+                ).toList();
+        return new PortfolioTimelineResponse(items);
     }
 
     @GetMapping("/current/{userId}/{currency}")
@@ -42,6 +60,5 @@ public class PortfolioController {
 
         return new PortfolioResponse(items);
     }
-
 
 }

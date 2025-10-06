@@ -10,6 +10,8 @@ public interface PortfolioEodRepository extends JpaRepository<PortfolioEod, Stri
 
     List<PortfolioEod> getPortfolioEodsByUser_IdAndCurrencyAndDate(String userId, String currency, LocalDate date);
 
+    List<PortfolioEod> getPortfolioEodsByUser_IdAndCurrencyAndAssetName(String userId, String currency, String assetName, Sort sort);
+
     void deletePortfolioEodsByUser_Id(String userId);
 
 }

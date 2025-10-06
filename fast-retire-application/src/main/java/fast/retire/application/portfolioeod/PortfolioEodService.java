@@ -18,6 +18,10 @@ public class PortfolioEodService {
         return portfolioEodRepository.getPortfolioEodsByUser_IdAndCurrencyAndDate(userId, currency, date);
     }
 
+    public List<PortfolioEod> getPortfolioEodsByUserIdFromDateTillNow(String userId, String currency, String assetName) {
+        return portfolioEodRepository.getPortfolioEodsByUser_IdAndCurrencyAndAssetName(userId, currency, assetName, Sort.by("date"));
+    }
+
     @Transactional
     public void regeneratePortfolio(String userId, String targetCurrency) {
         portfolioEodGenerator.generate(userId, targetCurrency);
