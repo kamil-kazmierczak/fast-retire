@@ -28,7 +28,7 @@ export type ChartOptions = {
 export class OverviewComponent implements OnInit {
     private overviewService = inject(OverviewService);
     portfolioResponse$ = this.overviewService.getOverview('1', 'PLN');
-    portfolioTimelineResponse$ = this.overviewService.getTimelineOverview('1', 'BTC', 'PLN');
+    portfolioTimelineResponse$ = this.overviewService.getTimelineOverview('1', 'DOT', 'PLN');
 
     @ViewChild("pieChart") pie!: ChartComponent;
     @ViewChild("lineChart") line!: ChartComponent;
@@ -86,16 +86,24 @@ export class OverviewComponent implements OnInit {
                     width: 1600,
                     type: 'area',
                     // stacked: false,
-                    height: 300,
-                    stroke: {
-                        width: 0.5
-                    },
+                    height: 500,
                     zoom: {
                         enabled: false
                     },
                     toolbar: {
                         show: false
                     }
+                },
+                tooltip: {
+                    y: {
+                        formatter: function(value: string) {
+                            return value + " PLN"
+                        }
+                    }
+                },
+                stroke: {
+                    show: true,
+                    width: 2
                 },
                 dataLabels: {
                     enabled: false
