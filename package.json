@@ -1,6 +1,6 @@
 {
     "name": "fast-retire-frontend",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
@@ -29,7 +29,9 @@
         "@angular/forms": "^20.3.2",
         "@angular/platform-browser": "^20.3.2",
         "@angular/router": "^20.3.2",
+        "apexcharts": "^5.3.5",
         "bulma": "^1.0.4",
+        "ng-apexcharts": "^2.0.1",
         "postcss": "^8.5.6",
         "rxjs": "~7.8.0",
         "sass": "^1.93.2",
