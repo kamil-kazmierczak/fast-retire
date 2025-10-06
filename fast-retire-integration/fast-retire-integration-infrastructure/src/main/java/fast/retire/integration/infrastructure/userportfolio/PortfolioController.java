@@ -31,7 +31,8 @@ public class PortfolioController {
 
         List<PortfolioItemResponse> items = currentPortfolios.stream()
                 .map(portfolio -> PortfolioItemResponse.builder()
-                        .assetName(portfolio.getAsset())
+                        .assetName(portfolio.getAssetName())
+                        .assetType(portfolio.getAssetType())
                         .amount(portfolio.getAmount())
                         .value(portfolio.getComputedValue())
                         .currency(portfolio.getCurrency())

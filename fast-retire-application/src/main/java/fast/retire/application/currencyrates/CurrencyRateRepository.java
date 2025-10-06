@@ -1,4 +1,4 @@
-package fast.retire.api.currencyrates;
+package fast.retire.application.currencyrates;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

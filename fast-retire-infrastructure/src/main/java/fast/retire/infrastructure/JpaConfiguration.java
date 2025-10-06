@@ -6,11 +6,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
 @EnableJpaRepositories(basePackages = {
-        "fast.retire.api",
         "fast.retire.application"
 })
 @EntityScan({
-        "fast.retire.api",
         "fast.retire.application"
 })
 public class JpaConfiguration {

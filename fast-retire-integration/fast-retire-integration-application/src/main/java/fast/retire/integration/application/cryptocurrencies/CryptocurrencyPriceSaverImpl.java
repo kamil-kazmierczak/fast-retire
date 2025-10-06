@@ -1,8 +1,8 @@
 package fast.retire.integration.application.cryptocurrencies;
 
-import fast.retire.api.register.HistoryRegister;
-import fast.retire.api.register.HistoryRegisterRepository;
-import fast.retire.api.register.Price;
+import fast.retire.application.register.HistoryRegister;
+import fast.retire.application.register.HistoryRegisterRepository;
+import fast.retire.application.register.Price;
 import fast.retire.integration.api.cryptocurrencies.CryptocurrencyPriceSaver;
 import fast.retire.integration.api.cryptocurrencies.CryptocurrencyResponse;
 import lombok.RequiredArgsConstructor;

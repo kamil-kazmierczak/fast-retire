@@ -1,6 +1,6 @@
 package fast.retire.application.user;
 
-import fast.retire.application.assetaction.Trade;
+import fast.retire.application.trade.Trade;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

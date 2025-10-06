@@ -1,4 +1,4 @@
-package fast.retire.api.register;
+package fast.retire.application.register;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

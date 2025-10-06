@@ -1,4 +1,4 @@
-package fast.retire.application.assetaction;
+package fast.retire.application.trade;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

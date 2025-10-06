@@ -1,4 +1,4 @@
-package fast.retire.application.assetaction;
+package fast.retire.application.trade;
 
 import fast.retire.application.user.User;
 import jakarta.persistence.*;
@@ -21,8 +21,10 @@ public class Trade {
     @Id
     private String id;
 
-    private String asset;
+    @Embedded
+    private Asset asset;
 
+    @Column(precision = 20, scale = 8)
     private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)

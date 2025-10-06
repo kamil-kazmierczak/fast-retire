@@ -23,7 +23,9 @@ public class PortfolioEod {
     private LocalDate date;
 
     private BigDecimal amount;
-    private String asset;
+
+    private String assetName;
+    private String assetType;
 
     private BigDecimal computedValue;
     private String currency;

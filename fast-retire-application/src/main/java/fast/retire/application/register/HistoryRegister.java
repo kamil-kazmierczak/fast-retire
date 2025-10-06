@@ -1,5 +1,6 @@
-package fast.retire.api.currencyrates;
+package fast.retire.application.register;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -12,22 +13,21 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "CURRENCY_RATES")
+@Table(name = "HISTORY_REGISTER")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class CurrencyRate {
+public class HistoryRegister {
 
     @Id
     private String id;
 
-    private String baseCurrency;
+    private String asset;
 
-    private String targetCurrency;
+    private LocalDate registerDate;
 
-    private LocalDate date;
-
-    private BigDecimal amount;
+    @Embedded
+    private Price price;
 
 }

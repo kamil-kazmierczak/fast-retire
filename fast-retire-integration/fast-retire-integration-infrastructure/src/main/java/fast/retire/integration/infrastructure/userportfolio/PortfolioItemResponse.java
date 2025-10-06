@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 public class PortfolioItemResponse {
 
     String assetName;
+    String assetType;
     BigDecimal amount;
     BigDecimal value;
     String currency;

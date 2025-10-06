@@ -1,7 +1,7 @@
 package fast.retire.integration.application.currencyrates;
 
-import fast.retire.api.currencyrates.CurrencyRate;
-import fast.retire.api.currencyrates.CurrencyRateRepository;
+import fast.retire.application.currencyrates.CurrencyRate;
+import fast.retire.application.currencyrates.CurrencyRateRepository;
 import fast.retire.integration.api.fxrates.CurrencyRateResponse;
 import fast.retire.integration.api.fxrates.CurrencyRateSaver;
 import lombok.RequiredArgsConstructor;

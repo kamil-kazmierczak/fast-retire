@@ -1,8 +1,8 @@
 package fast.retire.integration.application.stocks;
 
-import fast.retire.api.register.HistoryRegister;
-import fast.retire.api.register.HistoryRegisterRepository;
-import fast.retire.api.register.Price;
+import fast.retire.application.register.HistoryRegister;
+import fast.retire.application.register.HistoryRegisterRepository;
+import fast.retire.application.register.Price;
 import fast.retire.integration.api.stocks.StockPriceSaver;
 import fast.retire.integration.api.stocks.StockResponse;
 import lombok.RequiredArgsConstructor;

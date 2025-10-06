@@ -1,9 +1,8 @@
 package fast.retire.infrastructure;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fast.retire.api.currencyrates.CurrencyRateRepository;
-import fast.retire.api.register.HistoryRegisterRepository;
-import fast.retire.application.assetaction.TradeRepository;
+import fast.retire.application.currencyrates.CurrencyRateRepository;
+import fast.retire.application.register.HistoryRegisterRepository;
 import fast.retire.application.portfolioeod.PortfolioEodRepository;
 import fast.retire.application.portfolioeod.PortfolioEodService;
 import fast.retire.application.portfolioeod.generator.PortfolioEodGenerator;

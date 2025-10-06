@@ -1,26 +1,21 @@
 package fast.retire.application.portfolioeod.generator;
 
-import fast.retire.api.currencyrates.CurrencyRate;
-import fast.retire.api.currencyrates.CurrencyRateRepository;
-import fast.retire.api.register.HistoryRegister;
-import fast.retire.api.register.HistoryRegisterRepository;
-import fast.retire.api.register.Price;
-import fast.retire.application.assetaction.Trade;
-import fast.retire.application.assetaction.TradeRepository;
-import fast.retire.application.assetaction.TradeType;
+import fast.retire.application.currencyrates.CurrencyRateRepository;
+import fast.retire.application.register.HistoryRegister;
+import fast.retire.application.register.HistoryRegisterRepository;
+import fast.retire.application.register.Price;
+import fast.retire.application.trade.AssetType;
+import fast.retire.application.trade.Trade;
+import fast.retire.application.trade.TradeType;
 import fast.retire.application.portfolioeod.PortfolioEod;
 import fast.retire.application.portfolioeod.PortfolioEodRepository;
 import fast.retire.application.user.User;
 import fast.retire.application.user.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.Jar;
-import org.springframework.data.domain.Sort;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -43,7 +38,7 @@ public class PortfolioEodGenerator {
         }
 
         Map<String, List<Trade>> tradesPerAsset = trades.stream()
-                .collect(Collectors.groupingBy(Trade::getAsset));
+                .collect(Collectors.groupingBy(trade -> trade.getAsset().getName()));
 
         for (String asset : tradesPerAsset.keySet()) {
             List<Trade> assetTrades = tradesPerAsset.get(asset).stream()
@@ -52,6 +47,7 @@ public class PortfolioEodGenerator {
 
             LocalDate startDate = assetTrades.getFirst().getDate();
             LocalDate endDate = LocalDate.now();
+            AssetType assetType = assetTrades.getFirst().getAsset().getType();
 
             for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
                 LocalDate finalDate = date;
@@ -60,7 +56,8 @@ public class PortfolioEodGenerator {
                         .sorted(Comparator.comparing(Trade::getDate))
                         .toList();
 
-                Optional<PortfolioEod> portfolioEodOpt = computePortfolio(asset, effectiveTrades, date, user, targetCurrency);
+                Optional<PortfolioEod> portfolioEodOpt = computePortfolio(
+                        asset, assetType, effectiveTrades, date, user, targetCurrency);
 
                 if (portfolioEodOpt.isEmpty()) {
                     continue;
@@ -75,7 +72,9 @@ public class PortfolioEodGenerator {
         return portfolioEods;
     }
 
-    private Optional<PortfolioEod> computePortfolio(String asset, List<Trade> trades,
+    private Optional<PortfolioEod> computePortfolio(String assetName,
+                                                    AssetType assetType,
+                                                    List<Trade> trades,
                                                     LocalDate date,
                                                     User user,
                                                     String targetCurrency) {
@@ -88,9 +87,8 @@ public class PortfolioEodGenerator {
             }
         }
 
-
         Optional<HistoryRegister> historyPriceOpt = historyRegisterRepository
-                .getHistoryRegisterByAssetAndRegisterDate(asset, date);
+                .getHistoryRegisterByAssetAndRegisterDate(assetName, date);
 
         if (historyPriceOpt.isEmpty()) {
             return Optional.empty();
@@ -119,8 +117,8 @@ public class PortfolioEodGenerator {
                         .date(date)
                         .user(user)
                         .amount(amount)
-                        .asset(asset)
-
+                        .assetName(assetName)
+                        .assetType(assetType.name())
                         .computedValue(computedValue)
                         .currency(currency)
 
