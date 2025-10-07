@@ -12,7 +12,10 @@ public class PortfolioItemResponse {
     String assetName;
     String assetType;
     BigDecimal amount;
-    BigDecimal value;
+    BigDecimal currentValue;
+    BigDecimal dailyChange;
+    BigDecimal weeklyChange;
+    BigDecimal monthlyChange;
     String currency;
 
 }

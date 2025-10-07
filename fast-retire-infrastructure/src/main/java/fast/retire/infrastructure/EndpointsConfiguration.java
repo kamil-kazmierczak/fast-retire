@@ -1,6 +1,7 @@
 package fast.retire.infrastructure;
 
 import fast.retire.application.portfolioeod.PortfolioEodService;
+import fast.retire.application.portfolioeod.changecalculator.PortfolioChangeCalculator;
 import fast.retire.integration.api.cryptocurrencies.CryptocurrencyFetcher;
 import fast.retire.integration.api.cryptocurrencies.CryptocurrencyPriceSaver;
 import fast.retire.integration.api.fxrates.CurrencyRateFetcher;
@@ -40,8 +41,9 @@ public class EndpointsConfiguration {
 
     @Bean
     public PortfolioController userPortfolioController(
-            PortfolioEodService portfolioEodService) {
-        return new PortfolioController(portfolioEodService);
+            PortfolioEodService portfolioEodService,
+            PortfolioChangeCalculator portfolioChangeCalculator) {
+        return new PortfolioController(portfolioEodService, portfolioChangeCalculator);
     }
 
 }

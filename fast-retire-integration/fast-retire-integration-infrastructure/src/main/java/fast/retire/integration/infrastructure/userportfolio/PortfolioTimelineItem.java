@@ -12,7 +12,10 @@ public class PortfolioTimelineItem {
 
     String assetName;
     String assetType;
-    BigDecimal value;
+    BigDecimal currentValue;
+    BigDecimal valueChangeDaily;
+    BigDecimal valueChangeWeekly;
+    BigDecimal valueChangeMonthly;
     String currency;
     LocalDate date;
 

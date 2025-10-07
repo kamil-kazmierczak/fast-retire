@@ -5,6 +5,7 @@ import fast.retire.application.currencyrates.CurrencyRateRepository;
 import fast.retire.application.history.HistoryRepository;
 import fast.retire.application.portfolioeod.PortfolioEodRepository;
 import fast.retire.application.portfolioeod.PortfolioEodService;
+import fast.retire.application.portfolioeod.changecalculator.PortfolioChangeCalculator;
 import fast.retire.application.portfolioeod.generator.PortfolioEodGenerator;
 import fast.retire.application.user.UserRepository;
 import fast.retire.integration.api.cryptocurrencies.CryptocurrencyFetcher;
@@ -91,6 +92,11 @@ public class BeanConfiguration {
                 currencyRateRepository
 
         );
+    }
+
+    @Bean
+    public PortfolioChangeCalculator portfolioChangeCalculator() {
+        return new PortfolioChangeCalculator();
     }
 
 }
