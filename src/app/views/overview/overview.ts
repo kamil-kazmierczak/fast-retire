@@ -28,7 +28,7 @@ export type ChartOptions = {
 export class OverviewComponent implements OnInit {
     private overviewService = inject(OverviewService);
     portfolioResponse$ = this.overviewService.getOverview('1', 'PLN');
-    portfolioTimelineResponse$ = this.overviewService.getTimelineOverview('1', 'DOT', 'PLN');
+    portfolioTimelineResponse$ = this.overviewService.getTimelineOverview('1', 'BTC', 'PLN');
 
     @ViewChild("pieChart") pie!: ChartComponent;
     @ViewChild("lineChart") line!: ChartComponent;
