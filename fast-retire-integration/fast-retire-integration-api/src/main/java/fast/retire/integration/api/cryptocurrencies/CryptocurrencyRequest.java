@@ -13,5 +13,6 @@ import lombok.*;
 public class CryptocurrencyRequest {
 
     private String symbol;
+    private String currency;
 
 }

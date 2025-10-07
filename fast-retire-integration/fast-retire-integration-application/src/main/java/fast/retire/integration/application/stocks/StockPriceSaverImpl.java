@@ -1,41 +1,46 @@
 package fast.retire.integration.application.stocks;
 
-import fast.retire.application.register.HistoryRegister;
-import fast.retire.application.register.HistoryRegisterRepository;
-import fast.retire.application.register.Price;
+import fast.retire.application.history.History;
+import fast.retire.application.history.HistoryRepository;
+import fast.retire.application.history.Price;
 import fast.retire.integration.api.stocks.StockPriceSaver;
 import fast.retire.integration.api.stocks.StockResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class StockPriceSaverImpl implements StockPriceSaver {
 
-    private final HistoryRegisterRepository historyRegisterRepository;
+    private final HistoryRepository historyRepository;
 
     @Transactional
     public void save(StockResponse response) {
         String symbol = response.getSymbol();
+        String defaultStockCurrency = "USD";
 
         var fetched = response.getPricePerDate().entrySet().stream()
-                .map(entry -> HistoryRegister.builder()
-                        .id(symbol + "_" + entry.getKey())
-                        .price(new Price(entry.getValue(), "USD"))
+                .map(entry -> History.builder()
+                        .id(UUID.randomUUID().toString())
+                        .price(new Price(entry.getValue(), defaultStockCurrency))
                         .registerDate(entry.getKey())
                         .asset(symbol)
                         .build())
                 .toList();
 
-        List<String> idsInRegister = historyRegisterRepository.findAll().stream()
-                .map(HistoryRegister::getId)
+        Set<LocalDate> existedDates = historyRepository.getAllByAssetAndAndPrice_Currency(symbol, defaultStockCurrency).stream()
+                .map(History::getRegisterDate)
+                .collect(Collectors.toSet());
+
+        List<History> toSave = fetched.stream()
+                .filter(fetchedItem -> !existedDates.contains(fetchedItem.getRegisterDate()))
                 .toList();
 
-        List<HistoryRegister> toSave = fetched.stream()
-                .filter(fetchedItem -> !idsInRegister.contains(fetchedItem.getId()))
-                .toList();
-
-        historyRegisterRepository.saveAll(toSave);
+        historyRepository.saveAll(toSave);
     }
 }

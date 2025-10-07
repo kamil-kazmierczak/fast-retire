@@ -1,9 +1,9 @@
 package fast.retire.application.portfolioeod.generator;
 
 import fast.retire.application.currencyrates.CurrencyRateRepository;
-import fast.retire.application.register.HistoryRegister;
-import fast.retire.application.register.HistoryRegisterRepository;
-import fast.retire.application.register.Price;
+import fast.retire.application.history.History;
+import fast.retire.application.history.HistoryRepository;
+import fast.retire.application.history.Price;
 import fast.retire.application.trade.AssetType;
 import fast.retire.application.trade.Trade;
 import fast.retire.application.trade.TradeType;
@@ -23,7 +23,7 @@ public class PortfolioEodGenerator {
 
     private final PortfolioEodRepository portfolioEodRepository;
     private final UserRepository userRepository;
-    private final HistoryRegisterRepository historyRegisterRepository;
+    private final HistoryRepository historyRepository;
     private final CurrencyRateRepository currencyRateRepository;
 
     public List<PortfolioEod> generate(String userId, String targetCurrency) {
@@ -87,15 +87,15 @@ public class PortfolioEodGenerator {
             }
         }
 
-        Optional<HistoryRegister> historyPriceOpt = historyRegisterRepository
-                .getHistoryRegisterByAssetAndRegisterDate(assetName, date);
+        Optional<History> historyPriceOpt = historyRepository
+                .getHistoryByAssetAndRegisterDate(assetName, date);
 
         if (historyPriceOpt.isEmpty()) {
             return Optional.empty();
         }
 
-        HistoryRegister historyRegister = historyPriceOpt.get();
-        Price historyPrice = historyRegister.getPrice();
+        History history = historyPriceOpt.get();
+        Price historyPrice = history.getPrice();
         BigDecimal computedValue = amount.multiply(historyPrice.getValue());
         String currency = historyPrice.getCurrency();
 

@@ -2,7 +2,7 @@ package fast.retire.infrastructure;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fast.retire.application.currencyrates.CurrencyRateRepository;
-import fast.retire.application.register.HistoryRegisterRepository;
+import fast.retire.application.history.HistoryRepository;
 import fast.retire.application.portfolioeod.PortfolioEodRepository;
 import fast.retire.application.portfolioeod.PortfolioEodService;
 import fast.retire.application.portfolioeod.generator.PortfolioEodGenerator;
@@ -41,8 +41,8 @@ public class BeanConfiguration {
 
     @Bean
     public StockPriceSaver stockPriceSaver(
-            HistoryRegisterRepository historyRegisterRepository) {
-        return new StockPriceSaverImpl(historyRegisterRepository);
+            HistoryRepository historyRepository) {
+        return new StockPriceSaverImpl(historyRepository);
     }
 
     @Bean
@@ -54,8 +54,8 @@ public class BeanConfiguration {
 
     @Bean
     public CryptocurrencyPriceSaver cryptocurrencyPriceSaver(
-            HistoryRegisterRepository historyRegisterRepository) {
-        return new CryptocurrencyPriceSaverImpl(historyRegisterRepository);
+            HistoryRepository historyRepository) {
+        return new CryptocurrencyPriceSaverImpl(historyRepository);
     }
 
     @Bean
@@ -82,12 +82,12 @@ public class BeanConfiguration {
     public PortfolioEodGenerator portfolioEodGenerator(
             PortfolioEodRepository portfolioEodRepository,
             UserRepository userRepository,
-            HistoryRegisterRepository historyRegisterRepository,
+            HistoryRepository historyRepository,
             CurrencyRateRepository currencyRateRepository) {
         return new PortfolioEodGenerator(
                 portfolioEodRepository,
                 userRepository,
-                historyRegisterRepository,
+                historyRepository,
                 currencyRateRepository
 
         );

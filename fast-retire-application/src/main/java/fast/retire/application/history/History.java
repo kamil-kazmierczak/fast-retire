@@ -1,4 +1,4 @@
-package fast.retire.application.register;
+package fast.retire.application.history;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -9,16 +9,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "HISTORY_REGISTER")
+@Table(name = "HISTORY")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class HistoryRegister {
+public class History {
 
     @Id
     private String id;

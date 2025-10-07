@@ -1,19 +1,23 @@
 package fast.retire.integration.application.cryptocurrencies;
 
-import fast.retire.application.register.HistoryRegister;
-import fast.retire.application.register.HistoryRegisterRepository;
-import fast.retire.application.register.Price;
+import fast.retire.application.history.History;
+import fast.retire.application.history.HistoryRepository;
+import fast.retire.application.history.Price;
 import fast.retire.integration.api.cryptocurrencies.CryptocurrencyPriceSaver;
 import fast.retire.integration.api.cryptocurrencies.CryptocurrencyResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class CryptocurrencyPriceSaverImpl implements CryptocurrencyPriceSaver {
 
-    private final HistoryRegisterRepository historyRegisterRepository;
+    private final HistoryRepository historyRepository;
 
     @Transactional
     public void save(CryptocurrencyResponse response) {
@@ -21,23 +25,22 @@ public class CryptocurrencyPriceSaverImpl implements CryptocurrencyPriceSaver {
         String currency = response.getCurrency();
 
         var fetched = response.getPricePerDate().entrySet().stream()
-                .map(entry -> HistoryRegister.builder()
-                        .id(symbol + "_" + entry.getKey())
+                .map(entry -> History.builder()
+                        .id(UUID.randomUUID().toString())
                         .price(new Price(entry.getValue(), currency))
                         .registerDate(entry.getKey())
                         .asset(symbol)
                         .build())
                 .toList();
 
-        List<String> idsInRegister = historyRegisterRepository.findAll().stream()
-                .map(HistoryRegister::getId)
+        Set<LocalDate> existedHistoriesDates = historyRepository.getAllByAssetAndAndPrice_Currency(symbol, currency).stream()
+                .map(History::getRegisterDate)
+                .collect(Collectors.toSet());
+
+        List<History> toSave = fetched.stream()
+                .filter(fetchedItem -> !existedHistoriesDates.contains(fetchedItem.getRegisterDate()))
                 .toList();
 
-        List<HistoryRegister> toSave = fetched.stream()
-                .filter(fetchedItem -> !idsInRegister.contains(fetchedItem.getId()))
-                .toList();
-
-
-        historyRegisterRepository.saveAll(toSave);
+        historyRepository.saveAll(toSave);
     }
 }

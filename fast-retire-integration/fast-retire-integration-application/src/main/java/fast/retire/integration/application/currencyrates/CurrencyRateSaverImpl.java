@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class CurrencyRateSaverImpl implements CurrencyRateSaver {
@@ -32,7 +33,7 @@ public class CurrencyRateSaverImpl implements CurrencyRateSaver {
         var registeredAlreadyDates = currencyRateRepository
                 .findAllByBaseCurrencyAndTargetCurrency(baseCurrency, targetCurrency).stream()
                 .map(CurrencyRate::getDate)
-                .toList();
+                .collect(Collectors.toSet());
 
         var toBeSaved = fetched.stream()
                 .filter(fetchedItem -> !registeredAlreadyDates.contains(fetchedItem.getDate()))

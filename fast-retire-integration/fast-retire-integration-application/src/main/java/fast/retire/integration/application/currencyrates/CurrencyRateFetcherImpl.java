@@ -20,7 +20,7 @@ public class CurrencyRateFetcherImpl implements CurrencyRateFetcher {
     // https://api.fxratesapi.com/timeseries?api_key=fxr_live_d374de9d27c3038b38513faad079dcfe6026&start_date=2024-10-05&end_date=2025-10-03&currencies=PLN
     @Override
     public CurrencyRateResponse fetch(CurrencyRateRequest request) throws Exception {
-        String url = "https://api.fxratesapi.com/timeseries?api_key=" + API_KEY + "&places=2&currencies=" + request.getTargetCurrency() + "&start_date=2024-10-06&end_date=2025-10-05";
+        String url = "https://api.fxratesapi.com/timeseries?api_key=" + API_KEY + "&places=2&currencies=" + request.getTargetCurrency() + "&start_date=2024-10-08&end_date=2025-10-07";
         var result = restTemplate.getForEntity(url, String.class);
         log.debug("Response from FxRatesApi on {}-{}: {}",
                 request.getBaseCurrency(),

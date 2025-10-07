@@ -21,10 +21,12 @@ public class CryptocurrencyFetcherImpl implements CryptocurrencyFetcher {
     @Override
     public CryptocurrencyResponse fetch(CryptocurrencyRequest request) throws Exception {
         String symbol = request.getSymbol();
+        String currency = request.getCurrency();
 
-        String url = "https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=" + symbol + "&market=USD&apikey=" + API_KEY;
+        String url = "https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=" + symbol
+                + "&market=" + currency + "&apikey=" + API_KEY;
         var result = restTemplate.getForEntity(url, String.class);
-        log.debug("Response from AlphaVantage on symbol {}: {}", symbol, result);
+        log.debug("Response from AlphaVantage on symbol {}, currency {}: {}", symbol, currency, result);
 
         return objectMapper.readValue(result.getBody(), CryptocurrencyResponse.class);
     }

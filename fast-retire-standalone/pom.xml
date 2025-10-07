@@ -39,6 +39,38 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>11.13.2</version>
+                <configuration>
+                    <url>jdbc:postgresql://localhost:5432/app_db?currentSchema=ft_dev</url>
+                    <user>app_user</user>
+                    <password>app_pass</password>
+                    <createSchemas>true</createSchemas>
+                    <schemas>
+                        <schema>ft_dev</schema>
+                    </schemas>
+                    <locations>
+                        <location>filesystem:src/main/resources/db/migration</location>
+                    </locations>
+                </configuration>
+
+                <dependencies>
+                    <!-- WYMAGANE: plugin bazy PostgreSQL dla Flyway 11+ -->
+                    <dependency>
+                        <groupId>org.flywaydb</groupId>
+                        <artifactId>flyway-database-postgresql</artifactId>
+                        <version>11.13.2</version>
+                    </dependency>
+                    <!-- Sterownik JDBC -->
+                    <dependency>
+                        <groupId>org.postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>42.7.4</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
         </plugins>
     </build>
 

@@ -6,10 +6,7 @@ import fast.retire.integration.api.fxrates.CurrencyRateResponse;
 import fast.retire.integration.api.fxrates.CurrencyRateSaver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/integration/currency-rates")
@@ -21,7 +18,12 @@ public class CurrencyRateController {
     private final CurrencyRateSaver currencyRateSaver;
 
 
-    @PostMapping
+    @GetMapping
+    public CurrencyRateResponse fetch(@RequestBody CurrencyRateRequest request) throws Exception {
+        return currencyRateFetcher.fetch(request);
+    }
+
+    @PostMapping("/synchronize")
     public void synchronize(@RequestBody CurrencyRateRequest request) throws Exception {
         CurrencyRateResponse response = currencyRateFetcher.fetch(request);
         currencyRateSaver.save(response);

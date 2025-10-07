@@ -1,4 +1,4 @@
-package fast.retire.application.register;
+package fast.retire.application.history;
 
 import jakarta.persistence.*;
 import lombok.*;
