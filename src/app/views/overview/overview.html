@@ -1,35 +1,66 @@
-<div class="level">
+<div class="cockpit-box">
     @if (portfolioResponse$ | async; as portfolio) {
         @for (item of portfolio.portfolioItems; track $index) {
-            <div class="level-item has-text-centered">
+            <div class="cockpit-item">
                 <div>
-                    <p class="heading">{{ item.assetName }}</p>
-                    <p class="title">{{ item.value }} {{ item.currency }}</p>
+                    <p class="subtitle">{{ item.assetName }}</p>
+                    <p class="title">{{ item.currentValue.toFixed(2) }} {{ item.currency }}</p>
+                    <hr>
+                    <div class="portfolio_change">
+                        <div class="portfolio_change_label">Daily</div>
+                        <div [ngClass]="getChangeClass(item.dailyChange)">
+                            {{ formatChange(item.dailyChange) }}
+                        </div>
+                    </div>
+                    <div class="portfolio_change">
+                        <div class="portfolio_change_label">Weekly</div>
+                        <div [ngClass]="getChangeClass(item.weeklyChange)">
+                            {{ formatChange(item.weeklyChange) }}
+                        </div>
+                    </div>
+                    <div class="portfolio_change">
+                        <div class="portfolio_change_label">Monthly</div>
+                        <div [ngClass]="getChangeClass(item.monthlyChange)">
+                            {{ formatChange(item.monthlyChange) }}
+                        </div>
+                    </div>
+
                 </div>
             </div>
         }
     }
 </div>
 <hr>
+
+
 <div>
-    <apx-chart #pieChart
-               [series]="pieChartOptions.series"
-               [chart]="pieChartOptions.chart"
-               [xaxis]="pieChartOptions.xaxis"
-               [title]="pieChartOptions.title"
-    ></apx-chart>
+    @if (cryptoChartOptions) {
+        <apx-chart #cryptoChart
+                   [series]="cryptoChartOptions.series"
+                   [chart]="cryptoChartOptions.chart"
+                   [xaxis]="cryptoChartOptions.xaxis"
+                   [yaxis]="cryptoChartOptions.yaxis"
+                   [title]="cryptoChartOptions.title"
+                   [dataLabels]="cryptoChartOptions.dataLabels"
+                   [stroke]="cryptoChartOptions.stroke"
+                   [tooltip]="cryptoChartOptions.tooltip"
+        ></apx-chart>
+    }
 </div>
 
 <div>
-    <apx-chart #lineChart
-               [series]="lineChartOptions.series"
-               [chart]="lineChartOptions.chart"
-               [xaxis]="lineChartOptions.xaxis"
-               [yaxis]="lineChartOptions.yaxis"
-               [title]="lineChartOptions.title"
-               [dataLabels]="lineChartOptions.dataLabels"
-               [stroke]="lineChartOptions.stroke"
-               [tooltip]="lineChartOptions.tooltip"
-    ></apx-chart>
+    @if (stockChartOptions) {
+        <apx-chart #stockChart
+                   [series]="stockChartOptions.series"
+                   [chart]="stockChartOptions.chart"
+                   [xaxis]="stockChartOptions.xaxis"
+                   [yaxis]="stockChartOptions.yaxis"
+                   [title]="stockChartOptions.title"
+                   [dataLabels]="stockChartOptions.dataLabels"
+                   [stroke]="stockChartOptions.stroke"
+                   [tooltip]="stockChartOptions.tooltip"
+
+        ></apx-chart>
+    }
 </div>
 

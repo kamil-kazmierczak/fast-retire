@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
@@ -6,18 +6,13 @@ import {environment} from "../../../environments/environment";
 @Injectable({
   providedIn: 'root'
 })
-export class OverviewService {
+export class CryptoService {
     constructor(private http: HttpClient) {}
 
-    getOverview(userId: string, currency: string): Observable<PortfolioResponse> {
-        return this.http.get<PortfolioResponse>(
-            `${environment.apiUrl}/portfolio/current/${userId}/${currency}`
-        );
-    }
 
-    getSummary(userId: string, assetType: string, currency: string): Observable<PortfolioTimelineResponse> {
+    getTimelineOverview(userId: string, assetName: string, currency: string): Observable<PortfolioTimelineResponse> {
         return this.http.get<PortfolioTimelineResponse>(
-            `${environment.apiUrl}/portfolio/summary/${assetType}/${userId}/${currency}`
+            `${environment.apiUrl}/portfolio/timeline/${assetName}/${userId}/${currency}`
         )
     }
 
@@ -31,10 +26,7 @@ export interface PortfolioItem {
     assetName: string;
     assetType: string;
     amount: number;
-    currentValue: number;
-    dailyChange: number;
-    weeklyChange: number;
-    monthlyChange: number;
+    value: number;
     currency: string;
 }
 
