@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
@@ -69,16 +70,19 @@ public class PortfolioController {
 
     @GetMapping("/current/{userId}/{currency}")
     public PortfolioResponse getCurrentPortfolio(@PathVariable String userId, @PathVariable String currency) {
-        LocalDate currentDate = LocalDate.now().minusDays(10);
+        LocalDate currentDate = LocalDate.of(2025, 10, 6);
+        LocalDate lastDay = currentDate.with(new LastWorkingDayAdjuster());
+        LocalDate lastWeek = currentDate.with(new LastWorkingDayWeekBeforeAdjuster());
+        LocalDate lastMonth = currentDate.with(new LastWorkingDayMonthBeforeAdjuster());
 
         List<PortfolioEod> currentPortfolios = portfolioEodService
                 .getPortfolioEodByUserIdAndDate(userId, currency, currentDate);
         var dayBeforePortfolios = portfolioEodService
-                .getPortfolioEodByUserIdAndDate(userId, currency, currentDate.minusDays(1));
+                .getPortfolioEodByUserIdAndDate(userId, currency, lastDay);
         var weekBeforePortfolios = portfolioEodService
-                .getPortfolioEodByUserIdAndDate(userId, currency, currentDate.minusWeeks(1));
+                .getPortfolioEodByUserIdAndDate(userId, currency, lastWeek);
         var monthBeforePortfolios = portfolioEodService
-                .getPortfolioEodByUserIdAndDate(userId, currency, currentDate.minusMonths(1));
+                .getPortfolioEodByUserIdAndDate(userId, currency, lastMonth);
 
         Map<String, PortfolioChanges> portfolioChangesPerAssetName = portfolioChangeCalculator.calculate(
                 currentPortfolios,
@@ -93,15 +97,36 @@ public class PortfolioController {
                         .assetType(portfolio.getAssetType())
                         .amount(portfolio.getAmount())
                         .currentValue(portfolio.getComputedValue())
-                        .dailyChange(portfolioChangesPerAssetName.get(portfolio.getAssetName()).getDayBeforeValueChange())
-                        .weeklyChange(portfolioChangesPerAssetName.get(portfolio.getAssetName()).getWeekBeforeValueChange())
-                        .monthlyChange(portfolioChangesPerAssetName.get(portfolio.getAssetName()).getMonthBeforeValueChange())
+                        .dailyPercentageChange(portfolioChangesPerAssetName.get(portfolio.getAssetName()).getDayBeforePercentageChange())
+                        .weeklyPercentageChange(portfolioChangesPerAssetName.get(portfolio.getAssetName()).getWeekBeforePercentageChange())
+                        .monthlyPercentageChange(portfolioChangesPerAssetName.get(portfolio.getAssetName()).getMonthBeforePercentageChange())
+                        .dailyValueChange(portfolioChangesPerAssetName.get(portfolio.getAssetName()).getDayBeforeValueChange())
+                        .weeklyValueChange(portfolioChangesPerAssetName.get(portfolio.getAssetName()).getWeekBeforeValueChange())
+                        .monthlyValueChange(portfolioChangesPerAssetName.get(portfolio.getAssetName()).getMonthBeforeValueChange())
                         .currency(portfolio.getCurrency())
                         .build()
                 )
                 .toList();
 
-        return new PortfolioResponse(items);
+        BigDecimal currentPortfolioBalance = calculateBalance(currentPortfolios);
+        BigDecimal dayBeforePortfolioBalance = calculateBalance(dayBeforePortfolios);
+        BigDecimal weekBeforePortfolioBalance = calculateBalance(weekBeforePortfolios);
+        BigDecimal monthBeforePortfolioBalance = calculateBalance(monthBeforePortfolios);
+
+        return PortfolioResponse.builder()
+                .portfolioCurrency(currency)
+                .portfolioBalance(currentPortfolioBalance)
+                .dayBeforePortfolioBalance(dayBeforePortfolioBalance)
+                .weekBeforePortfolioBalance(weekBeforePortfolioBalance)
+                .monthBeforePortfolioBalance(monthBeforePortfolioBalance)
+                .portfolioItems(items)
+                .build();
+    }
+
+    private BigDecimal calculateBalance(List<PortfolioEod> portfolioEods) {
+        return portfolioEods.stream()
+                .map(PortfolioEod::getComputedValue)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
 }

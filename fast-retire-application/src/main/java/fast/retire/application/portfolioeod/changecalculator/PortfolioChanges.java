@@ -9,7 +9,12 @@ import java.time.LocalDate;
 @Data
 @Builder
 public class PortfolioChanges {
+    private BigDecimal dayBeforePercentageChange;
     private BigDecimal dayBeforeValueChange;
+
+    private BigDecimal weekBeforePercentageChange;
     private BigDecimal weekBeforeValueChange;
+
+    private BigDecimal monthBeforePercentageChange;
     private BigDecimal monthBeforeValueChange;
 }

@@ -28,9 +28,12 @@ public class PortfolioChangeCalculator {
             BigDecimal monthBeforeValue = findByAssetName(assetName, monthBeforePortfolios).getComputedValue();
 
             result.put(assetName, PortfolioChanges.builder()
-                            .dayBeforeValueChange(computePercentageChange(currentValue, dayBeforeValue))
-                            .weekBeforeValueChange(computePercentageChange(currentValue, weekBeforeValue))
-                            .monthBeforeValueChange(computePercentageChange(currentValue, monthBeforeValue))
+                            .dayBeforeValueChange(currentValue.subtract(dayBeforeValue))
+                            .weekBeforeValueChange(currentValue.subtract(weekBeforeValue))
+                            .monthBeforeValueChange(currentValue.subtract(monthBeforeValue))
+                            .dayBeforePercentageChange(computePercentageChange(currentValue, dayBeforeValue))
+                            .weekBeforePercentageChange(computePercentageChange(currentValue, weekBeforeValue))
+                            .monthBeforePercentageChange(computePercentageChange(currentValue, monthBeforeValue))
                     .build());
         }
         return result;
@@ -60,7 +63,7 @@ public class PortfolioChangeCalculator {
             return new BigDecimal(100)
                     .subtract(currentValue
                     .multiply(new BigDecimal(100))
-                    .divide(historicalValue, MathContext.DECIMAL32));
+                    .divide(historicalValue, MathContext.DECIMAL32)).negate();
         }
         else return BigDecimal.ZERO;
     }

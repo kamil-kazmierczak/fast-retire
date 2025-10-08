@@ -13,9 +13,15 @@ public class PortfolioItemResponse {
     String assetType;
     BigDecimal amount;
     BigDecimal currentValue;
-    BigDecimal dailyChange;
-    BigDecimal weeklyChange;
-    BigDecimal monthlyChange;
+
+    BigDecimal dailyPercentageChange;
+    BigDecimal weeklyPercentageChange;
+    BigDecimal monthlyPercentageChange;
+
+    BigDecimal dailyValueChange;
+    BigDecimal weeklyValueChange;
+    BigDecimal monthlyValueChange;
+
     String currency;
 
 }
