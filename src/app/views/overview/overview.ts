@@ -8,7 +8,7 @@ import {
     ApexTitleSubtitle,
     NgApexchartsModule
 } from "ng-apexcharts";
-import {AsyncPipe, NgClass} from "@angular/common";
+import {AsyncPipe, formatNumber, NgClass} from "@angular/common";
 
 export type ChartOptions = {
     series: ApexAxisChartSeries;
@@ -149,18 +149,22 @@ export class OverviewComponent implements OnInit {
 
     getChangeClass(change: number) {
         if (change > 0) {
-            return 'portfolio_change_value_green'
+            return 'portfolio_change_percentage_green'
         }
         else if (change < 0) {
-            return 'portfolio_change_value_red'
+            return 'portfolio_change_percentage_red'
         }
         return '';
     }
 
-    formatChange(change: number) {
+    formatChange(change: number, suffix: string = ' PLN') {
         const prefix = change > 0 ? '+' : '';
-        return `${prefix}${change.toFixed(2)}%`;
+        return `${prefix}${formatNumber(change, 'pl', '1.2-2')}${suffix}`;
     }
 
+    formatBalance(balance: number, currency: string) {
+        const formattedBalance = formatNumber(balance, 'pl','1.2-2');
+        return `${formattedBalance} ${currency}`;
+    }
 
 }

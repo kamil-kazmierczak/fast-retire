@@ -24,6 +24,11 @@ export class OverviewService {
 }
 
 export interface PortfolioResponse {
+    portfolioCurrency: string;
+    portfolioBalance: number;
+    dayBeforePortfolioBalance: number;
+    weekBeforePortfolioBalance: number;
+    monthBeforePortfolioBalance: number;
     portfolioItems: PortfolioItem[];
 }
 
@@ -32,9 +37,12 @@ export interface PortfolioItem {
     assetType: string;
     amount: number;
     currentValue: number;
-    dailyChange: number;
-    weeklyChange: number;
-    monthlyChange: number;
+    dailyPercentageChange: number;
+    weeklyPercentageChange: number;
+    monthlyPercentageChange: number;
+    dailyValueChange: number;
+    weeklyValueChange: number;
+    monthlyValueChange: number;
     currency: string;
 }
 

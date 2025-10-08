@@ -1,27 +1,57 @@
+<div class="cockpit-summary">
+    <div class="cockpit-summary-box">
+        @if (portfolioResponse$ | async; as portfolio) {
+            <div class="cockpit-summary-item">
+                <div class="cockpit-summary-label">
+                    Balance
+                </div>
+                <div class="cockpit-summary-value">
+                    {{ formatBalance(portfolio.portfolioBalance, portfolio.portfolioCurrency) }}
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<hr class="divider">
 <div class="cockpit-box">
     @if (portfolioResponse$ | async; as portfolio) {
         @for (item of portfolio.portfolioItems; track $index) {
             <div class="cockpit-item">
                 <div>
                     <p class="subtitle">{{ item.assetName }}</p>
-                    <p class="title">{{ item.currentValue.toFixed(2) }} {{ item.currency }}</p>
+                    <p class="title">{{ formatBalance(item.currentValue, item.currency) }}</p>
                     <hr>
                     <div class="portfolio_change">
                         <div class="portfolio_change_label">Daily</div>
-                        <div [ngClass]="getChangeClass(item.dailyChange)">
-                            {{ formatChange(item.dailyChange) }}
+                        <div class="portfolio_change_data">
+                            <div class="portfolio_change_value">
+                                {{ formatChange(item.dailyValueChange) }}
+                            </div>
+                            <div [ngClass]="getChangeClass(item.dailyPercentageChange)">
+                                {{ formatChange(item.dailyPercentageChange, '%') }}
+                            </div>
                         </div>
                     </div>
                     <div class="portfolio_change">
                         <div class="portfolio_change_label">Weekly</div>
-                        <div [ngClass]="getChangeClass(item.weeklyChange)">
-                            {{ formatChange(item.weeklyChange) }}
+                        <div class="portfolio_change_data">
+                            <div class="portfolio_change_value">
+                                {{ formatChange(item.weeklyValueChange) }}
+                            </div>
+                            <div [ngClass]="getChangeClass(item.weeklyPercentageChange)">
+                                {{ formatChange(item.weeklyPercentageChange, '%') }}
+                            </div>
                         </div>
                     </div>
                     <div class="portfolio_change">
                         <div class="portfolio_change_label">Monthly</div>
-                        <div [ngClass]="getChangeClass(item.monthlyChange)">
-                            {{ formatChange(item.monthlyChange) }}
+                        <div class="portfolio_change_data">
+                            <div class="portfolio_change_value">
+                                {{ formatChange(item.monthlyValueChange) }}
+                            </div>
+                            <div [ngClass]="getChangeClass(item.monthlyPercentageChange)">
+                                {{ formatChange(item.monthlyPercentageChange, '%') }}
+                            </div>
                         </div>
                     </div>
 
@@ -30,37 +60,36 @@
         }
     }
 </div>
-<hr>
 
 
-<div>
-    @if (cryptoChartOptions) {
-        <apx-chart #cryptoChart
-                   [series]="cryptoChartOptions.series"
-                   [chart]="cryptoChartOptions.chart"
-                   [xaxis]="cryptoChartOptions.xaxis"
-                   [yaxis]="cryptoChartOptions.yaxis"
-                   [title]="cryptoChartOptions.title"
-                   [dataLabels]="cryptoChartOptions.dataLabels"
-                   [stroke]="cryptoChartOptions.stroke"
-                   [tooltip]="cryptoChartOptions.tooltip"
-        ></apx-chart>
-    }
-</div>
+<!--<div>-->
+<!--    @if (cryptoChartOptions) {-->
+<!--        <apx-chart #cryptoChart-->
+<!--                   [series]="cryptoChartOptions.series"-->
+<!--                   [chart]="cryptoChartOptions.chart"-->
+<!--                   [xaxis]="cryptoChartOptions.xaxis"-->
+<!--                   [yaxis]="cryptoChartOptions.yaxis"-->
+<!--                   [title]="cryptoChartOptions.title"-->
+<!--                   [dataLabels]="cryptoChartOptions.dataLabels"-->
+<!--                   [stroke]="cryptoChartOptions.stroke"-->
+<!--                   [tooltip]="cryptoChartOptions.tooltip"-->
+<!--        ></apx-chart>-->
+<!--    }-->
+<!--</div>-->
 
-<div>
-    @if (stockChartOptions) {
-        <apx-chart #stockChart
-                   [series]="stockChartOptions.series"
-                   [chart]="stockChartOptions.chart"
-                   [xaxis]="stockChartOptions.xaxis"
-                   [yaxis]="stockChartOptions.yaxis"
-                   [title]="stockChartOptions.title"
-                   [dataLabels]="stockChartOptions.dataLabels"
-                   [stroke]="stockChartOptions.stroke"
-                   [tooltip]="stockChartOptions.tooltip"
+<!--<div>-->
+<!--    @if (stockChartOptions) {-->
+<!--        <apx-chart #stockChart-->
+<!--                   [series]="stockChartOptions.series"-->
+<!--                   [chart]="stockChartOptions.chart"-->
+<!--                   [xaxis]="stockChartOptions.xaxis"-->
+<!--                   [yaxis]="stockChartOptions.yaxis"-->
+<!--                   [title]="stockChartOptions.title"-->
+<!--                   [dataLabels]="stockChartOptions.dataLabels"-->
+<!--                   [stroke]="stockChartOptions.stroke"-->
+<!--                   [tooltip]="stockChartOptions.tooltip"-->
 
-        ></apx-chart>
-    }
-</div>
+<!--        ></apx-chart>-->
+<!--    }-->
+<!--</div>-->
 
