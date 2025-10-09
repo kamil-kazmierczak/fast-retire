@@ -50,4 +50,9 @@ public class PortfolioEodService {
     public void regeneratePortfolio(String userId, String targetCurrency) {
         portfolioEodGenerator.generate(userId, targetCurrency);
     }
+
+    @Transactional
+    public void clearPortfolio(String userId) {
+        portfolioEodRepository.deletePortfolioEodsByUser_Id(userId);
+    }
 }

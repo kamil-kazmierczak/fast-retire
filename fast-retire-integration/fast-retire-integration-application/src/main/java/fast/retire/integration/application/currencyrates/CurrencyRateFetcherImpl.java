@@ -22,7 +22,7 @@ public class CurrencyRateFetcherImpl implements CurrencyRateFetcher {
     @Override
     public CurrencyRateResponse fetch(CurrencyRateRequest request) throws Exception {
         String startDate = LocalDate.now().minusMonths(1).toString();
-        String endDate = LocalDate.now().minusDays(1).toString();
+        String endDate = LocalDate.now().toString();
 
         String url = "https://api.fxratesapi.com/timeseries?api_key=" + API_KEY + "&places=2&currencies=" + request.getTargetCurrency()
                 + "&start_date=" + startDate + "&end_date=" + endDate;

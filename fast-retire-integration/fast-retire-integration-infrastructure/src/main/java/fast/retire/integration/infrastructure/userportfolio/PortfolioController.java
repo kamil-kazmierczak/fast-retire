@@ -24,6 +24,10 @@ public class PortfolioController {
     private final PortfolioEodService portfolioEodService;
     private final PortfolioChangeCalculator portfolioChangeCalculator;
 
+    @PostMapping("/clear/{userId}")
+    public void clearPortfolio(@PathVariable String userId) {
+        portfolioEodService.clearPortfolio(userId);
+    }
 
     @PostMapping("/regenerate/{userId}/{currency}")
     public void regeneratePortfolio(@PathVariable String userId, @PathVariable String currency) {
@@ -70,7 +74,7 @@ public class PortfolioController {
 
     @GetMapping("/current/{userId}/{currency}")
     public PortfolioResponse getCurrentPortfolio(@PathVariable String userId, @PathVariable String currency) {
-        LocalDate currentDate = LocalDate.of(2025, 10, 6);
+        LocalDate currentDate = LocalDate.now().minusDays(1);
         LocalDate lastDay = currentDate.with(new LastWorkingDayAdjuster());
         LocalDate lastWeek = currentDate.with(new LastWorkingDayWeekBeforeAdjuster());
         LocalDate lastMonth = currentDate.with(new LastWorkingDayMonthBeforeAdjuster());
