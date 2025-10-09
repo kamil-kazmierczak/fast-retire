@@ -1,14 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {RouterLink, RouterOutlet} from '@angular/router';
+import {Component} from '@angular/core';
+import {RouterOutlet} from '@angular/router';
 
 @Component({
     selector: 'app-main-layout',
-    imports: [RouterOutlet, RouterLink],
+    imports: [RouterOutlet],
     templateUrl: './main-layout.html',
     styleUrl: './main-layout.scss'
 })
-export class MainLayoutComponent implements OnInit {
-
-    ngOnInit() {
-    }
-}
+export class MainLayoutComponent {}

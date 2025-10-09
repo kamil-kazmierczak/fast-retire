@@ -1,21 +1,9 @@
 .main {
     display: flex;
     flex-direction: column;
-    padding-inline: 18rem;
-}
-
-.sidebar {
-    padding: 4rem;
+    padding-inline: 4rem;
+    background-color: #F0F3F5;
+    height: 100%;
     min-height: 100vh;
-    font-size: 1.3rem;
-    background-color: #F0F3F5;
-}
-
-.menu-list a, .section {
-    background-color: #F0F3F5;
-
-}
-
-.menu-list a:hover {
-    background-color: white;
+    padding-top: 3rem;
 }
