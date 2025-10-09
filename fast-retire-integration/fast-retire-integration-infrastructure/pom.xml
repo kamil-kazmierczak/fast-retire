@@ -6,7 +6,7 @@
     <parent>
         <groupId>pl.kmlk</groupId>
         <artifactId>fast-retire-integration</artifactId>
-        <version>0.0.5-SNAPSHOT</version>
+        <version>0.0.6-SNAPSHOT</version>
     </parent>
 
     <artifactId>fast-retire-integration-infrastructure</artifactId>
@@ -21,12 +21,12 @@
         <dependency>
             <groupId>pl.kmlk</groupId>
             <artifactId>fast-retire-integration-api</artifactId>
-            <version>0.0.5-SNAPSHOT</version>
+            <version>0.0.6-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>pl.kmlk</groupId>
             <artifactId>fast-retire-application</artifactId>
-            <version>0.0.5-SNAPSHOT</version>
+            <version>0.0.6-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

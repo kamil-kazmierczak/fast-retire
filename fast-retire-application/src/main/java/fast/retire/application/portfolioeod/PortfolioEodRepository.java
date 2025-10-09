@@ -1,6 +1,5 @@
 package fast.retire.application.portfolioeod;
 
-import fast.retire.application.user.User;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -17,5 +16,4 @@ public interface PortfolioEodRepository extends JpaRepository<PortfolioEod, Stri
 
     void deletePortfolioEodsByUser_Id(String userId);
 
-    String user(User user);
 }
