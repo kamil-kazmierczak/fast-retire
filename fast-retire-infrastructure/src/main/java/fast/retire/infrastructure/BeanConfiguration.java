@@ -16,10 +16,14 @@ import fast.retire.integration.api.stocks.StockFetcher;
 import fast.retire.integration.api.stocks.StockPriceSaver;
 import fast.retire.integration.application.cryptocurrencies.CryptocurrencyFetcherImpl;
 import fast.retire.integration.application.cryptocurrencies.CryptocurrencyPriceSaverImpl;
+import fast.retire.integration.application.cryptocurrencies.CryptocurrencyScheduler;
 import fast.retire.integration.application.currencyrates.CurrencyRateFetcherImpl;
 import fast.retire.integration.application.currencyrates.CurrencyRateSaverImpl;
+import fast.retire.integration.application.currencyrates.CurrencyRateScheduler;
 import fast.retire.integration.application.stocks.StockFetcherImpl;
 import fast.retire.integration.application.stocks.StockPriceSaverImpl;
+import fast.retire.integration.application.stocks.StockScheduler;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -97,6 +101,42 @@ public class BeanConfiguration {
     @Bean
     public PortfolioChangeCalculator portfolioChangeCalculator() {
         return new PortfolioChangeCalculator();
+    }
+
+    @Bean
+    @ConditionalOnProperty(
+            name = "timer.enabled",
+            havingValue = "true"
+    )
+    public CryptocurrencyScheduler cryptocurrencyScheduler(
+            CryptocurrencyFetcher cryptocurrencyFetcher,
+            CryptocurrencyPriceSaver cryptocurrencyPriceSaver
+    ) {
+        return new CryptocurrencyScheduler(cryptocurrencyFetcher, cryptocurrencyPriceSaver);
+    }
+
+    @Bean
+    @ConditionalOnProperty(
+            name = "timer.enabled",
+            havingValue = "true"
+    )
+    public CurrencyRateScheduler currencyRateScheduler(
+            CurrencyRateFetcher currencyRateFetcher,
+            CurrencyRateSaver currencyRateSaver
+    ) {
+        return new CurrencyRateScheduler(currencyRateFetcher, currencyRateSaver);
+    }
+
+    @Bean
+    @ConditionalOnProperty(
+            name = "timer.enabled",
+            havingValue = "true"
+    )
+    public StockScheduler stockScheduler(
+            StockFetcher stockFetcher,
+            StockPriceSaver stockPriceSaver
+    ) {
+        return new StockScheduler(stockFetcher, stockPriceSaver);
     }
 
 }
