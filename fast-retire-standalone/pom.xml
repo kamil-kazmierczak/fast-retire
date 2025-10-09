@@ -6,7 +6,7 @@
     <parent>
         <groupId>pl.kmlk</groupId>
         <artifactId>fast-retire</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>fast-retire-standalone</artifactId>
@@ -21,7 +21,7 @@
         <dependency>
             <groupId>pl.kmlk</groupId>
             <artifactId>fast-retire-infrastructure</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.0.3-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
@@ -44,9 +44,9 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>11.13.2</version>
                 <configuration>
-                    <url>jdbc:postgresql://localhost:5432/app_db?currentSchema=ft_dev</url>
-                    <user>app_user</user>
-                    <password>app_pass</password>
+                    <url>jdbc:postgresql://192.168.88.22:5432/appdb?currentSchema=ft_dev</url>
+                    <user>kamil</user>
+                    <password>kamil1234</password>
                     <createSchemas>true</createSchemas>
                     <schemas>
                         <schema>ft_dev</schema>

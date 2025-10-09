@@ -1,0 +1,10 @@
+postgres_db/
+data/
+db/
+node_modules/
+target/
+dist/
+.git/
+.idea/
+*.iml
+*.log
