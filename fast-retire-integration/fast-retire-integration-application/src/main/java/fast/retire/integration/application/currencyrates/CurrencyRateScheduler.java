@@ -17,10 +17,10 @@ public class CurrencyRateScheduler {
 
 
     @Scheduled(fixedDelayString = "${timer.synchronize-currency-rate.interval}" )
-    public void synchronize(CurrencyRateRequest request) throws Exception {
+    public void synchronize() throws Exception {
         log.debug("Timer synchronize-currency-rate started");
 
-        CurrencyRateResponse response = currencyRateFetcher.fetch(request);
+        CurrencyRateResponse response = currencyRateFetcher.fetch(new CurrencyRateRequest("USD", "PLN"));
         currencyRateSaver.save(response);
 
         log.debug("Timer ended");

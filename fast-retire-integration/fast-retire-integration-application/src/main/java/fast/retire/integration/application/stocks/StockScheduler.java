@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import java.util.List;
+
 @Log4j2
 @RequiredArgsConstructor
 public class StockScheduler {
@@ -17,11 +19,15 @@ public class StockScheduler {
 
 
     @Scheduled(fixedDelayString = "${timer.synchronize-stock-price.interval}" )
-    public void synchronize(StockRequest request) throws Exception {
+    public void synchronize() throws Exception {
         log.debug("Timer synchronize-stock-price started");
 
-        StockResponse response = stockFetcher.fetch(request);
-        stockPriceSaver.save(response);
+        var stocks = List.of("CNDX.LON", "VUAA.LON");
+
+        for (var stock : stocks) {
+            StockResponse response = stockFetcher.fetch(new StockRequest(stock));
+            stockPriceSaver.save(response);
+        }
 
         log.debug("Timer ended");
     }
