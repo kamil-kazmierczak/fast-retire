@@ -1,9 +1,13 @@
 .main {
     display: flex;
     flex-direction: column;
-    padding-inline: 4rem;
+    padding-inline: 12rem;
+    padding-top: 4rem;
     background-color: #F0F3F5;
     height: 100%;
     min-height: 100vh;
-    padding-top: 3rem;
+
+    @media(max-width: 768px) {
+        padding: 2rem;
+    }
 }

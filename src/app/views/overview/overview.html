@@ -3,7 +3,7 @@
         @if (portfolioResponse$ | async; as portfolio) {
             <div class="cockpit-summary-item">
                 <div class="cockpit-summary-label">
-                    Balance
+                    Summary
                 </div>
                 <div class="cockpit-summary-value">
                     {{ formatBalance(portfolio.portfolioBalance, portfolio.portfolioCurrency) }}
@@ -12,17 +12,17 @@
         }
     </div>
 </div>
-<hr class="divider">
+<hr>
 <div class="cockpit-box">
     @if (portfolioResponse$ | async; as portfolio) {
         @for (item of portfolio.portfolioItems; track $index) {
             <div class="cockpit-item">
                 <div>
-                    <p class="subtitle">{{ item.assetName }}</p>
-                    <p class="title">{{ formatBalance(item.currentValue, item.currency) }}</p>
+                    <p>{{ item.assetName }}</p>
+                    <p class="portfolio_value">{{ formatBalance(item.currentValue, item.currency) }}</p>
                     <hr>
                     <div class="portfolio_change">
-                        <div class="portfolio_change_label">Daily</div>
+                        <div class="portfolio_change_label">24h</div>
                         <div class="portfolio_change_data">
                             <div class="portfolio_change_value">
                                 {{ formatChange(item.dailyValueChange) }}
@@ -33,7 +33,7 @@
                         </div>
                     </div>
                     <div class="portfolio_change">
-                        <div class="portfolio_change_label">Weekly</div>
+                        <div class="portfolio_change_label">7d</div>
                         <div class="portfolio_change_data">
                             <div class="portfolio_change_value">
                                 {{ formatChange(item.weeklyValueChange) }}
@@ -44,7 +44,7 @@
                         </div>
                     </div>
                     <div class="portfolio_change">
-                        <div class="portfolio_change_label">Monthly</div>
+                        <div class="portfolio_change_label">1m</div>
                         <div class="portfolio_change_data">
                             <div class="portfolio_change_value">
                                 {{ formatChange(item.monthlyValueChange) }}
