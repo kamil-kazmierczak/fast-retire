@@ -16,7 +16,7 @@ public class CurrencyRateScheduler {
     private final CurrencyRateSaver currencyRateSaver;
 
 
-    @Scheduled(fixedDelayString = "${timer.synchronize-currency-rate.interval}" )
+    @Scheduled(cron = "${timer.synchronize-currency-rate.cron}" )
     public void synchronize() throws Exception {
         log.debug("Timer synchronize-currency-rate started");
 

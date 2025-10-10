@@ -18,7 +18,7 @@ public class CryptocurrencyScheduler {
     private final CryptocurrencyFetcher cryptocurrencyFetcher;
     private final CryptocurrencyPriceSaver cryptocurrencyPriceSaver;
 
-    @Scheduled(fixedDelayString = "${timer.synchronize-crypto-price.interval}" )
+    @Scheduled(cron = "${timer.synchronize-crypto-price.cron}" )
     public void synchronize() throws Exception {
         log.debug("Timer synchronize-crypto-price started");
 

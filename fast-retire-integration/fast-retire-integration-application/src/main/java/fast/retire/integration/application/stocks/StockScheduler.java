@@ -18,7 +18,7 @@ public class StockScheduler {
     private final StockPriceSaver stockPriceSaver;
 
 
-    @Scheduled(fixedDelayString = "${timer.synchronize-stock-price.interval}" )
+    @Scheduled(cron = "${timer.synchronize-stock-price.cron}" )
     public void synchronize() throws Exception {
         log.debug("Timer synchronize-stock-price started");
 

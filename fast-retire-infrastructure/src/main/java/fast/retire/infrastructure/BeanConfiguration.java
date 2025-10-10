@@ -5,6 +5,7 @@ import fast.retire.application.currencyrates.CurrencyRateRepository;
 import fast.retire.application.history.HistoryRepository;
 import fast.retire.application.portfolioeod.PortfolioEodRepository;
 import fast.retire.application.portfolioeod.PortfolioEodService;
+import fast.retire.application.portfolioeod.PortfolioScheduler;
 import fast.retire.application.portfolioeod.changecalculator.PortfolioChangeCalculator;
 import fast.retire.application.portfolioeod.generator.PortfolioEodGenerator;
 import fast.retire.application.user.UserRepository;
@@ -137,6 +138,15 @@ public class BeanConfiguration {
             StockPriceSaver stockPriceSaver
     ) {
         return new StockScheduler(stockFetcher, stockPriceSaver);
+    }
+
+    @Bean
+    @ConditionalOnProperty(
+            name =  "timer.enabled",
+            havingValue = "true"
+    )
+    public PortfolioScheduler portfolioScheduler(PortfolioEodService portfolioEodService) {
+        return new PortfolioScheduler(portfolioEodService);
     }
 
 }
