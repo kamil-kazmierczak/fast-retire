@@ -34,7 +34,8 @@ import org.springframework.web.client.RestTemplate;
 @Import({
         JpaConfiguration.class,
         InfrastructureConfiguration.class,
-        EndpointsConfiguration.class
+        EndpointsConfiguration.class,
+        FiltersConfiguration.class
 })
 public class BeanConfiguration {
 

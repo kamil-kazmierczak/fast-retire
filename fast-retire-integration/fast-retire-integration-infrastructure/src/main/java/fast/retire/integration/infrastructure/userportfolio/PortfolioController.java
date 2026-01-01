@@ -79,6 +79,8 @@ public class PortfolioController {
         LocalDate lastWeek = currentDate.with(new LastWorkingDayWeekBeforeAdjuster());
         LocalDate lastMonth = currentDate.with(new LastWorkingDayMonthBeforeAdjuster());
 
+        log.debug("Some message");
+
         List<PortfolioEod> currentPortfolios = portfolioEodService
                 .getPortfolioEodByUserIdAndDate(userId, currency, currentDate);
         var dayBeforePortfolios = portfolioEodService
