@@ -1,6 +1,6 @@
 package fast.retire.integration.application.currencyrates;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import fast.retire.integration.api.fxrates.CurrencyRateFetcher;
 import fast.retire.integration.api.fxrates.CurrencyRateRequest;
 import fast.retire.integration.api.fxrates.CurrencyRateResponse;

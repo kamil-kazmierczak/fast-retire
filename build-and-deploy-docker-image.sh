@@ -2,11 +2,11 @@
 # build.sh - Automatyczny build z wersją z pom.xml
 
 # Pobierz wersję z pom.xml
-VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+VERSION=$(grep "^version=" gradle.properties | cut -d'=' -f2)
 APP_NAME="kamilkazmierczak/fast-retire-standalone"
 
 echo "🏗️ Building JAR..."
-mvn clean package -DskipTests
+./gradlew clean build -x test
 
 echo "🐳 Building Docker image version $VERSION..."
 docker build \

@@ -18,6 +18,7 @@ public class PortfolioResponse {
 
     private String portfolioCurrency;
 
-    List<PortfolioItemResponse> portfolioItems = new ArrayList<>();
+    @Builder.Default
+    private List<PortfolioItemResponse> portfolioItems = new ArrayList<>();
 
 }

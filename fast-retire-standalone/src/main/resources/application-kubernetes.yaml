@@ -1,7 +1,14 @@
 server:
   port: 8080
 
+management:
+  tracing:
+    enabled: true
+
 logging:
+  structured:
+    format:
+      console: ecs
   level:
     fast:
       retire: debug

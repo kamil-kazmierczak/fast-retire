@@ -1,66 +1,36 @@
 package fast.retire.infrastructure;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.module.SimpleModule;
 import fast.retire.integration.api.cryptocurrencies.CryptocurrencyResponse;
 import fast.retire.integration.api.fxrates.CurrencyRateResponse;
 import fast.retire.integration.api.stocks.StockResponse;
 import fast.retire.integration.infrastructure.cryptocurrencies.CryptocurrencyResponseDeserializer;
 import fast.retire.integration.infrastructure.currencyrates.CurrencyRateResponseDeserializer;
 import fast.retire.integration.infrastructure.stocks.StockResponseDeserializer;
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.boot.restclient.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
-
-import java.time.format.DateTimeFormatter;
 
 @Configuration
 public class InfrastructureConfiguration {
 
     @Bean
-    public ObjectMapper objectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
+    public JsonMapper jsonMapper() {
+        JsonMapper jsonMapper = new JsonMapper();
         SimpleModule module = new SimpleModule();
         module.addDeserializer(StockResponse.class, new StockResponseDeserializer());
         module.addDeserializer(CryptocurrencyResponse.class, new CryptocurrencyResponseDeserializer());
         module.addDeserializer(CurrencyRateResponse.class, new CurrencyRateResponseDeserializer());
-        objectMapper.registerModule(module);
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-        return objectMapper;
+        return jsonMapper;
     }
+
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder.build();
-    }
-    
-    @Bean
-    public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
-        
-        return builder -> {
-            
-            // formatter
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            DateTimeFormatter dateTimeFormatter =  DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            
-            // deserializers
-            builder.deserializers(new LocalDateDeserializer(dateFormatter));
-            builder.deserializers(new LocalDateTimeDeserializer(dateTimeFormatter));
-            
-            // serializers
-            builder.serializers(new LocalDateSerializer(dateFormatter));
-            builder.serializers(new LocalDateTimeSerializer(dateTimeFormatter));
-        };
     }
 
 }

@@ -27,7 +27,7 @@ public class User {
     private String email;
 
     @OneToMany(mappedBy = "user")
-    private List<Trade> trades = new ArrayList<>();
+    private List<Trade> trades;
 
     private LocalDate registrationDate;
 

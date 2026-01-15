@@ -1,6 +1,6 @@
 package fast.retire.integration.application.cryptocurrencies;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import fast.retire.integration.api.cryptocurrencies.CryptocurrencyFetcher;
 import fast.retire.integration.api.cryptocurrencies.CryptocurrencyRequest;
 import fast.retire.integration.api.cryptocurrencies.CryptocurrencyResponse;

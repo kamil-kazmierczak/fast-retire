@@ -1,6 +1,6 @@
 package fast.retire.integration.application.stocks;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import fast.retire.integration.api.stocks.StockFetcher;
 import fast.retire.integration.api.stocks.StockRequest;
 import fast.retire.integration.api.stocks.StockResponse;

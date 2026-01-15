@@ -1,9 +1,9 @@
 package fast.retire.integration.infrastructure.stocks;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.deser.std.StdDeserializer;
 import fast.retire.integration.api.stocks.StockResponse;
 
 import java.io.IOException;
@@ -15,7 +15,7 @@ import java.util.Map;
 public class StockResponseDeserializer extends StdDeserializer<StockResponse> {
 
     public StockResponseDeserializer() {
-        this(null);
+        this(StockResponse.class);
     }
 
     public StockResponseDeserializer(Class<?> vc) {
@@ -23,15 +23,14 @@ public class StockResponseDeserializer extends StdDeserializer<StockResponse> {
     }
 
     @Override
-    public StockResponse deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
-            throws IOException {
-        JsonNode node = jsonParser.getCodec().readTree(jsonParser);
-        String symbol = node.get("Meta Data").get("2. Symbol").asText();
+    public StockResponse deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) {
+        JsonNode node = deserializationContext.readTree(jsonParser);
+        String symbol = node.get("Meta Data").get("2. Symbol").asString();
 
         Map<LocalDate, BigDecimal> pricePerMonth = new HashMap<>();
 
         for (var entry : node.get("Time Series (Daily)").properties()) {
-            pricePerMonth.put(LocalDate.parse(entry.getKey()), new BigDecimal(entry.getValue().get("4. close").asText()));
+            pricePerMonth.put(LocalDate.parse(entry.getKey()), new BigDecimal(entry.getValue().get("4. close").asString()));
         }
 
         return StockResponse.builder()

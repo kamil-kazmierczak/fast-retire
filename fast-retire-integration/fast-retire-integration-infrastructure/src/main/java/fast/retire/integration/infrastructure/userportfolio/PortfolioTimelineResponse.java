@@ -10,6 +10,7 @@ import java.util.List;
 @Data
 public class PortfolioTimelineResponse {
 
+    @Builder.Default
     List<PortfolioTimelineItem> portfolioTimelineItems = new ArrayList<>();
 
 }
