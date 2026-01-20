@@ -43,4 +43,8 @@ subprojects {
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
 
+    tasks.withType<JavaCompile>().configureEach {
+        options.compilerArgs.add("-parameters")
+    }
+
 }
