@@ -8,5 +8,5 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webmvc")
 
 
-    compileOnly("org.postgresql:postgresql")
+    runtimeOnly("org.postgresql:postgresql")
 }
