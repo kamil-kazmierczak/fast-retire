@@ -6,7 +6,7 @@ VERSION=$(grep "^version=" gradle.properties | cut -d'=' -f2)
 APP_NAME="kamilkazmierczak/fast-retire-standalone"
 
 echo "🏗️ Building JAR..."
-./gradlew clean build -x test
+./gradlew clean bootJar
 
 echo "🐳 Building Docker image version $VERSION..."
 docker build \
