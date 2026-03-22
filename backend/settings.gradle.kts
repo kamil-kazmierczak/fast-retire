@@ -1,5 +1,3 @@
-rootProject.name = "fast-retire"
-
 include(
     "fast-retire-api",
     "fast-retire-application",
