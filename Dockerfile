@@ -20,6 +20,6 @@ RUN chmod +x gradlew && ./gradlew -p backend :fast-retire-standalone:bootJar --n
 # === Stage 3: Runtime ===
 FROM eclipse-temurin:25-jre-alpine
 COPY --from=backend-build \
-  /app/backend/fast-retire-standalone/build/libs/*.jar app.jar
+  /app/backend/fast-retire-standalone/build/libs/*-standalone.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/app.jar"]
