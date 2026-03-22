@@ -1,0 +1,61 @@
+<div class="cockpit-summary">
+    <div class="cockpit-summary-box">
+        @if (portfolioResponse$ | async; as portfolio) {
+            <div class="cockpit-summary-item">
+                <div class="cockpit-summary-label">
+                    Summary
+                </div>
+                <div class="cockpit-summary-value">
+                    {{ formatBalance(portfolio.portfolioBalance, portfolio.portfolioCurrency) }}
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<hr>
+<div class="cockpit-box">
+    @if (portfolioResponse$ | async; as portfolio) {
+        @for (item of portfolio.portfolioItems; track $index) {
+            <div class="cockpit-item">
+                <div>
+                    <p>{{ item.assetName }}</p>
+                    <p class="portfolio_value">{{ formatBalance(item.currentValue, item.currency) }}</p>
+                    <hr>
+                    <div class="portfolio_change">
+                        <div class="portfolio_change_label">24h</div>
+                        <div class="portfolio_change_data">
+                            <div class="portfolio_change_value">
+                                {{ formatChange(item.dailyValueChange) }}
+                            </div>
+                            <div [ngClass]="getChangeClass(item.dailyPercentageChange)">
+                                {{ formatChange(item.dailyPercentageChange, '%') }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio_change">
+                        <div class="portfolio_change_label">7d</div>
+                        <div class="portfolio_change_data">
+                            <div class="portfolio_change_value">
+                                {{ formatChange(item.weeklyValueChange) }}
+                            </div>
+                            <div [ngClass]="getChangeClass(item.weeklyPercentageChange)">
+                                {{ formatChange(item.weeklyPercentageChange, '%') }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio_change">
+                        <div class="portfolio_change_label">1m</div>
+                        <div class="portfolio_change_data">
+                            <div class="portfolio_change_value">
+                                {{ formatChange(item.monthlyValueChange) }}
+                            </div>
+                            <div [ngClass]="getChangeClass(item.monthlyPercentageChange)">
+                                {{ formatChange(item.monthlyPercentageChange, '%') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

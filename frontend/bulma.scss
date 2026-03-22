@@ -1,0 +1,14 @@
+// Set your brand colors
+//$purple: #8a4d76;
+//$pink: #fa7c91;
+//$brown: #757763;
+//$beige-light: #d0d1cd;
+//$beige-lighter: #eff0eb;
+
+// Path to Bulma's sass folder
+@use "bulma/sass" with (
+  $family-primary: '"Inter"',
+);
+
+// Import the Google Font
+@import url('https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap');
