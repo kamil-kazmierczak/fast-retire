@@ -132,3 +132,21 @@ injected as a global script in `angular.json`).
   these files, raise it with the user instead of assuming it's intentional.
 - `InfrastructureConfiguration.jsonMapper()` builds a `SimpleModule` with the three custom `*ResponseDeserializer`s
   but never registers it on the returned `JsonMapper`, so those deserializers are effectively unused.
+
+## Agent skills
+
+### Issue tracker
+
+Issues and specs live as markdown files under `.scratch/<feature-slug>/` in this repo — no external tracker.
+See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+The five canonical triage roles used as-is (`needs-triage`, `needs-info`, `ready-for-agent`,
+`ready-for-human`, `wontfix`), written to a `Status:` line in each issue file.
+See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: `CONTEXT.md` + `docs/adr/` at the repo root (neither exists yet; created lazily).
+See `docs/agents/domain.md`.
